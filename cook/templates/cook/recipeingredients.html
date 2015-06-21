@@ -1,0 +1,45 @@
+<h1>Ingredient table</h1>
+<p>note: ingredient_list = Ingredient.objects.filter(recipeingredient__Recipe_id=recipeId)</p>
+{% if ingredient_list %}
+    <ul>
+        {% for Ingredient in ingredient_list %}
+    <li>
+
+        {{ Ingredient.name }}
+    </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No ingredients in result set.</p>
+{% endif %}
+
+<!--<h1>RecipeIngredient table</h1>-->
+<!--{% if recipeingredient_list %}-->
+    <!--<ul>-->
+    <!--{% for RecipeIngredient in recipeingredient_list %}-->
+    <!--<li>-->
+        <!--{{ RecipeIngredient.Ingredient_id }}-->
+    <!--</li>-->
+    <!--{% endfor %}-->
+    <!--</ul>-->
+<!--{% else %}-->
+    <!--<p>No ingredients in result set.</p>-->
+<!--{% endif %}-->
+
+<!--<br><br>-->
+<!--<h1>Ingredient table</h1>-->
+<!--<p>works for Ingredient.objects.all()</p>-->
+<!--{% if ingredient_list %}-->
+    <!--<ul>-->
+        <!--{% for Ingredient in ingredient_list %}-->
+    <!--<li>-->
+
+        <!--{{ Ingredient.name }}-->
+    <!--</li>-->
+    <!--{% endfor %}-->
+    <!--</ul>-->
+<!--{% else %}-->
+    <!--<p>No ingredients in result set.</p>-->
+<!--{% endif %}-->
+
+

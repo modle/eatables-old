@@ -2,7 +2,7 @@
     <ul>
     {% for recipe in recipe_list %}
 
-        <li><a href="/cooksomethings/{{ recipe.id }}/">{{ recipe.name }}</a></li>
+        <li><a href="/cook/{{ recipe.id }}/">{{ recipe.name }}</a> - {{ recipe.prepMethod }}</li>
     {% endfor %}
     </ul>
 {% else %}
