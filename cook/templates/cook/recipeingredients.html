@@ -23,7 +23,7 @@
         <h3>Ingredients</h3>
         {% if ingredient_query %}
             {% for Ingredient in ingredient_query %}
-                {{ Ingredient.name }} <br>
+                <input type="checkbox" name="ingredient" value={{Ingredient.id}}> {{ Ingredient.name }} <br>
             {% endfor %}
         {% else %}
             No ingredients in result set. Make something from nothing.
