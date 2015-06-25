@@ -9,7 +9,10 @@ class Recipe(models.Model):
     directions = models.TextField()
     url = models.CharField(max_length=200)
     def __str__(self):
-    	return self.name + "; " + self.prepMethod
+        return self.name + "; " + self.prepMethod
+
+    class Meta:
+        ordering = ('name', 'prepMethod')
 
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
@@ -30,3 +33,5 @@ class RecipeIngredient(models.Model):
 #     recipeId = models.ForeignKey(recipe)
 #     # ingredientId = models.IntegerField(default=0, )
 #     # recipeId = models.IntegerField(default=0)
+
+

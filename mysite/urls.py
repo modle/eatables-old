@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^cook/', include('cook.urls')),
+    url(r'^triggerfoods/', include('triggerfoods.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]

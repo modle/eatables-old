@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Recipe, Ingredient, RecipeIngredient
+from .models import Recipe, Ingredient
 # from .models import recipeIngredient
 
 # Create your views here.
 def index(request):
-    recipe_list = Recipe.objects.order_by('name') #[:5]
+    recipe_list = Recipe.objects.all() #[:5]
     context = {'recipe_list': recipe_list}
     return render(request, 'cook/index.html', context)
 

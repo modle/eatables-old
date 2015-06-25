@@ -1,10 +1,16 @@
 {% if recipe_list %}
-    <ul>
-    {% for recipe in recipe_list %}
-
-        <li><a href="/cook/{{ recipe.id }}/">{{ recipe.name }}</a> - {{ recipe.prepMethod }}</li>
-    {% endfor %}
-    </ul>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Prep Method</th>
+        </tr>
+        {% for recipe in recipe_list %}
+            <tr>
+                <td><a href="/cook/{{ recipe.id }}/">{{ recipe.name }}</a></td>
+                <td>{{ recipe.prepMethod }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% else %}
     <p>No recipes are available.</p>
 {% endif %}
