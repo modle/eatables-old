@@ -1,17 +1,37 @@
-<h1>Ingredient table</h1>
-<p>note: ingredient_list = Ingredient.objects.filter(recipeingredient__Recipe_id=recipeId)</p>
-{% if ingredient_list %}
-    <ul>
-        {% for Ingredient in ingredient_list %}
-    <li>
+{% load staticfiles %}
 
-        {{ Ingredient.name }}
-    </li>
+<link rel="stylesheet" type="text/css" href="{% static 'cook/style.css' %}" />
+
+<div id="title">
+    {% for Recipe in recipe_query %}
+        {{ Recipe.name }}
     {% endfor %}
-    </ul>
-{% else %}
-    <p>No ingredients in result set.</p>
-{% endif %}
+</div>
+<div style="margin-right: 10em">
+    <div id="directions">
+        <h3>Directions</h3>
+        {% if recipe_query %}
+            {% for Recipe in recipe_query %}
+                {{ Recipe.directions | safe }}
+            {% endfor %}
+        {% else %}
+            No directions exist for this recipe in the database. Just do whatever, I suppose.
+        {% endif %}
+
+    </div>
+    <div id="ingredients">
+        <h3>Ingredients</h3>
+        {% if ingredient_query %}
+            {% for Ingredient in ingredient_query %}
+                {{ Ingredient.name }} <br>
+            {% endfor %}
+        {% else %}
+            No ingredients in result set. Make something from nothing.
+        {% endif %}
+    </div>
+
+</div>
+<div style="clear:both"></div>
 
 <!--<h1>RecipeIngredient table</h1>-->
 <!--{% if recipeingredient_list %}-->

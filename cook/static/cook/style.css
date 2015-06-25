@@ -1,0 +1,26 @@
+#title {
+    background:gray;
+    text-align:center;
+    font-weight:bold;
+    padding: 0.5em;
+    font-size: 1.5em;
+}
+
+#directions{
+    float:left;
+    background:lightblue;
+    width:fill;
+    word-wrap:break-word;
+    padding-left:.5em;
+    padding-right:.5em;
+}
+
+#ingredients{
+    float: right;
+    background:lightgrey;
+    width:9em;
+    margin-right:-10em;
+    padding-left:.5em;
+    padding-right:.5em;
+    padding-bottom:1em;
+}
