@@ -1,0 +1,41 @@
+table{
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+#title {
+    background:gray;
+    text-align:center;
+    font-weight:bold;
+    padding: 0.5em;
+    font-size: 1.5em;
+    color: white;
+}
+
+#content{
+    display: flex;
+}
+
+#directions{
+    float:left;
+    width: 100%;
+    background:lightgreen;
+    padding: 1em;
+}
+
+#middle{
+    overflow:hidden;
+}
+
+#ingredients{
+    float: right;
+    background:lightgrey;
+    max-width: 30em;
+    min-width: 15em;
+    padding: 1em;
+    white-space: nowrap;
+}

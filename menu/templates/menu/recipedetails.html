@@ -1,0 +1,38 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<div id="title">
+    {% for r in recipe_result %}
+        {{ r.name }}
+    {% endfor %}
+</div>
+<div id="content">
+    <div id="directions">
+        <h3>Directions</h3>
+        {% if recipe_result %}
+            {% for r in recipe_result %}
+                {{ r.directions | safe }}
+            {% endfor %}
+        {% else %}
+            No directions exist for this recipe in the database. Just do whatever, I suppose.
+        {% endif %}
+    </div>
+    <div id="middle">
+    </div>
+    <div id="ingredients">
+        <h3>Ingredients</h3>
+        <button type=button>Add to List</button><br><br>
+        {% if ingredient_result %}
+            {% for i in ingredient_result %}
+                <input type="checkbox" name="ingredient" value={{i.id}}> {{ i.name }} - {{ i.amount }} {{ i.unit }}<br>
+            {% endfor %}
+        {% else %}
+            No ingredients in result set. Make something from nothing.
+        {% endif %}<br>
+        <button type=button>Add to List</button>
+    </div>
+
+</div>
+<div style="clear:both"></div>

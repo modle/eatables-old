@@ -1,0 +1,43 @@
+{% load staticfiles %}
+{% load menu_extras %}
+
+<link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+<div id="title">
+    Recipe Home
+</div>
+<div id="content">
+    <div id="directions">
+        <button>Add Recipe</button><br><br>
+        {% if recipe_list %}
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Prep Method</th>
+                    <th>Temperature<br>Setting</th>
+                    <th>Prep Time<br>(mm)</th>
+                    <th>Cook Time<br>(hh)</th>
+                    <th>Servings</th>
+                    <th>URL</th>
+                </tr>
+                {% for recipe in recipe_list %}
+                    <tr>
+                        <td><a href="/menu/{{ recipe.id }}/">{{ recipe.name }}</a></td>
+                        <td>{{ recipe.prepMethod }}</td>
+                        <td>{{ recipe.temperature }}</td>
+                        <td>{{ recipe.prepTime }}</td>
+                        <td>{{ recipe.cookTime|minutestohours }}</td>
+                        <td>{{ recipe.servings }}</td>
+                        <td><a href={{ recipe.url }}>URL</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No recipes are available.</p>
+        {% endif %}
+    </div>
+    <div id="middle">
+    </div>
+</div>
