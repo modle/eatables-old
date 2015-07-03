@@ -34,8 +34,8 @@ table, th, td {
 #ingredients{
     float: right;
     background:lightgrey;
-    max-width: 30em;
+    max-width: 50em;
     min-width: 15em;
     padding: 1em;
-    white-space: nowrap;
+    white-space: wrap;
 }

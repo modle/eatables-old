@@ -10,11 +10,10 @@
 </div>
 <div id="content">
     <div id="directions">
-        <a href="{% url 'addrecipe' %}">Add Recipe</a>
+        <a href="/menu/">Back</a>
         {% if recipe_list %}
             <table>
                 <tr>
-                    <th></th>
                     <th>Name</th>
                     <th>Prep Method</th>
                     <th>Temperature<br>Setting</th>
@@ -25,7 +24,6 @@
                 </tr>
                 {% for recipe in recipe_list %}
                     <tr>
-                        <td><a href = "/menu/editrecipe/{{ recipe.id }}/">Edit</a></td>
                         <td><a href="/menu/{{ recipe.id }}/">{{ recipe.name }}</a></td>
                         <td>{{ recipe.prepMethod }}</td>
                         <td>{{ recipe.temperature }}</td>
