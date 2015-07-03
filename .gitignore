@@ -1,2 +1,3 @@
+$ cat .gitignore
 # ignore idea files
 *.idea

@@ -21,6 +21,7 @@ def addrecipe(request):
 
 def editrecipe(request, recipeId):
     recipe_result = Recipe.objects.filter(id=recipeId)
-    context = {'recipe_list': recipe_result}
+    ingredient_result = Ingredient.objects.filter(recipe_id=recipeId)
+    units = Ingredient.objects.values_list('unit', flat=True)
+    context = {'ingredient_result': ingredient_result, 'recipe_result': recipe_result, 'units': units}
     return render(request, 'menu/editrecipe.html', context)
-

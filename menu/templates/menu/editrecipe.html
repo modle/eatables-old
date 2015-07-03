@@ -6,37 +6,51 @@
 
 
 <div id="title">
-    Recipe Home
+    Recipe Edit
 </div>
 <div id="content">
     <div id="directions">
-        <a href="/menu/">Back</a>
-        {% if recipe_list %}
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Prep Method</th>
-                    <th>Temperature<br>Setting</th>
-                    <th>Prep Time<br>(mm)</th>
-                    <th>Cook Time<br>(hh)</th>
-                    <th>Servings</th>
-                    <th>URL</th>
-                </tr>
-                {% for recipe in recipe_list %}
-                    <tr>
-                        <td><a href="/menu/{{ recipe.id }}/">{{ recipe.name }}</a></td>
-                        <td>{{ recipe.prepMethod }}</td>
-                        <td>{{ recipe.temperature }}</td>
-                        <td>{{ recipe.prepTime }}</td>
-                        <td>{{ recipe.cookTime|minutestohours }}</td>
-                        <td>{{ recipe.servings }}</td>
-                        <td><a href={{ recipe.url }}>URL</a></td>
-                    </tr>
+        <a href="/menu/">Back to Recipe List</a>
+        <form name = 'updaterecipe'>
+            {% if recipe_result %}
+                {% for recipe in recipe_result %}
+                    <h1>{{ recipe.name }}</h1>
+                    <a href="/menu/{{ recipe.id }}/">Go to Recipe Page</a><br><br><br>
+                    <h2>Details</h2>
+                    <input type=text value="{{ recipe.prepMethod }}">Prep Method<br><br>
+                    <input type=text value="{{ recipe.temperature }}">Temperature Setting<br><br>
+                    <input type=text value="{{ recipe.prepTime }}">Prep Time (minutes)<br><br>
+                    <input type=text value="{{ recipe.cookTime|minutestohours }}">Cook Time (hours)<br><br>
+                    <input type=text value="{{ recipe.servings }}">Servings<br><br>
                 {% endfor %}
-            </table>
-        {% else %}
-            <p>No recipes are available.</p>
-        {% endif %}
+            {% else %}
+                <p>No recipes are available.</p>
+            {% endif %}
+
+            <h2>Ingredients</h2>
+            {% if ingredient_result %}
+                <input type=button value="Add Ingredient">
+                <input type=submit value="Update Recipe"><br>
+                <table align="left">
+                    <tr>
+                        <th>Ingredient</th>
+                        <th>QTY</th>
+                        <th>Unit</th>
+                    </tr>
+                    {% for ingredient in ingredient_result %}
+                        <tr>
+                            <td>{{ ingredient.name }} <a href="/menu/editrecipe/removeingredient/">Remove</a></td>
+                            <td><input type=text value="{{ ingredient.amount }}"></td>
+                            <td><input type=text value="{{ ingredient.unit }}"></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No ingredients in recipe.</p>
+            {% endif %}
+                    <!--<select value="{{ unit.unit }}" selected="{{ ingredient.unit }}"><br><br>-->
+            </br>
+        </form>
     </div>
     <div id="middle">
     </div>

@@ -25,4 +25,3 @@ class Ingredient(models.Model):
     unit = models.CharField(max_length=200)
     def __str__(self):
         return str(self.amount) + " " + self.unit + " " + self.name
-
