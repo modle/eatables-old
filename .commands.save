@@ -1,0 +1,10 @@
+Import to models: python manage.py loaddata jsonFileName
+
+load the shell:
+alias pyshell="python manage.py shell"
+                <input type=button value="Add Ingredient"><br><br>
+                <input type=submit value="Update Recipe"><br><br>
+alias importtable="from cooksomethings.models import tableName"
+alias pyselal="from cooksomethings.models import table"
+alias pycharm="~/Programs/pycharm/bin/pycharm.sh"
+alias bin="cd /usr/local/bin"

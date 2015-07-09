@@ -3,7 +3,6 @@ from django.http import HttpResponse
 
 from .models import Recipe, Ingredient
 
-from .forms import EditRecipeForm
 
 def index(request):
     recipe_list = Recipe.objects.all() #[:5]

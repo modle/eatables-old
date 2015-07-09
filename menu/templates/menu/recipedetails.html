@@ -10,7 +10,10 @@
 </div>
 <div id="content">
     <div id="directions">
-        <a href="/menu/">Back to Recipe List</a>
+        <a href="{% url 'menu:index' %}">Back to Recipe List</a>
+        {% for r in recipe_result %}
+            <a href="{% url 'menu:editrecipe' r.id %}">Edit Recipe</a>
+        {% endfor %}
         <h3>Directions</h3>
         {% if recipe_result %}
             {% for r in recipe_result %}

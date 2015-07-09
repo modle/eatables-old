@@ -1,0 +1,6 @@
+$ cat .gitignore
+# ignore idea files
+*.idea
+
+#ignore nohup.out
+nohup.out

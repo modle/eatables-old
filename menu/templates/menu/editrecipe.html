@@ -10,12 +10,12 @@
 </div>
 <div id="content">
     <div id="directions">
-        <a href="/menu/">Back to Recipe List</a>
+        <a href="{% url 'menu:index' %}">Back to Recipe List</a>
         <form name = 'updaterecipe'>
             {% if recipe_result %}
                 {% for recipe in recipe_result %}
                     <h1>{{ recipe.name }}</h1>
-                    <a href="/menu/{{ recipe.id }}/">Go to Recipe Page</a><br><br><br>
+                    <td><a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a></td>
                     <h2>Details</h2>
                     <input type=text value="{{ recipe.prepMethod }}">Prep Method<br><br>
                     <input type=text value="{{ recipe.temperature }}">Temperature Setting<br><br>
