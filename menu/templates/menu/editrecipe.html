@@ -15,7 +15,7 @@
             {% if recipe_result %}
                 {% for recipe in recipe_result %}
                     <h1>{{ recipe.name }}</h1>
-                    <td><a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a></td>
+                    <a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
                     <h2>Details</h2>
                     <input type=text value="{{ recipe.prepMethod }}">Prep Method<br><br>
                     <input type=text value="{{ recipe.temperature }}">Temperature Setting<br><br>

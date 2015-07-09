@@ -32,7 +32,7 @@
                         <td>{{ recipe.prepTime }}</td>
                         <td>{{ recipe.cookTime|minutestohours }}</td>
                         <td>{{ recipe.servings }}</td>
-                        <td><a href={{ recipe.url }}>URL</a></td>
+                        <td><a href={{ recipe.url }} target="_blank">URL</a></td>
                     </tr>
                 {% endfor %}
             </table>
