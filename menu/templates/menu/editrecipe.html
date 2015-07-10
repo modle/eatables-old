@@ -6,51 +6,25 @@
 
 
 <div id="title">
-    Recipe Edit
+    Edit: {{ recipe.name }}
 </div>
 <div id="content">
     <div id="directions">
         <a href="{% url 'menu:index' %}">Back to Recipe List</a>
-        <form name = 'updaterecipe'>
-            {% if recipe_result %}
-                {% for recipe in recipe_result %}
-                    <h1>{{ recipe.name }}</h1>
-                    <a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
-                    <h2>Details</h2>
-                    <input type=text value="{{ recipe.prepMethod }}">Prep Method<br><br>
-                    <input type=text value="{{ recipe.temperature }}">Temperature Setting<br><br>
-                    <input type=text value="{{ recipe.prepTime }}">Prep Time (minutes)<br><br>
-                    <input type=text value="{{ recipe.cookTime|minutestohours }}">Cook Time (hours)<br><br>
-                    <input type=text value="{{ recipe.servings }}">Servings<br><br>
-                {% endfor %}
-            {% else %}
-                <p>No recipes are available.</p>
-            {% endif %}
-
-            <h2>Ingredients</h2>
-            {% if ingredient_result %}
-                <input type=button value="Add Ingredient">
-                <input type=submit value="Update Recipe"><br>
-                <table align="left">
-                    <tr>
-                        <th>Ingredient</th>
-                        <th>QTY</th>
-                        <th>Unit</th>
-                    </tr>
-                    {% for ingredient in ingredient_result %}
-                        <tr>
-                            <td>{{ ingredient.name }} <a href="/menu/editrecipe/removeingredient/">Remove</a></td>
-                            <td><input type=text value="{{ ingredient.amount }}"></td>
-                            <td><input type=text value="{{ ingredient.unit }}"></td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% else %}
-                <p>No ingredients in recipe.</p>
-            {% endif %}
-                    <!--<select value="{{ unit.unit }}" selected="{{ ingredient.unit }}"><br><br>-->
-            </br>
+        <a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
+        <br><br>
+        <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
+        {% csrf_token %}
+            <input type=text name="method" value="{{ recipe.prepMethod }}">Prep Method<br><br>
+            <input type=text name="temp" value="{{ recipe.temperature }}">Temperature Setting<br><br>
+            <input type=text name="prep" value="{{ recipe.prepTime }}">Prep Time (minutes)<br><br>
+            <input type=text name="cook" value="{{ recipe.cookTime }}">Cook Time (minutes)<br><br>
+            <input type=text name="serves" value="{{ recipe.servings }}">Servings<br><br>
+            Directions<br>
+            <textarea name="directions" ROWS=4 COLS=30>{{ recipe.directions }}</textarea><br><br>
+            <input type=submit value="Update Recipe Details" />
         </form>
+
     </div>
     <div id="middle">
     </div>

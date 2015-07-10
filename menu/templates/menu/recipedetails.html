@@ -27,7 +27,7 @@
     </div>
     <div id="ingredients">
         <h3>Ingredients</h3>
-        <input type=button value="Add to List"><br><br>
+        <input type=button value="Add Checked to List"><br><br>
         {% if ingredient_result %}
             {% for i in ingredient_result %}
                 <input type="checkbox" name="ingredient" value={{i.id}}> {{ i.name }} - {{ i.amount }} {{ i.unit }}<br>
