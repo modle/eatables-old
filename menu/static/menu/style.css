@@ -1,41 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
+
+*{
+    font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
+}
+
+html{
+    background:#A8A8A8;
+}
+
 table{
     border-collapse: collapse;
-    margin: 0 auto;
+    /*causes centering*/
+    /*margin: 0 auto; */
+}
+
+textarea{
+    font-size: 120%;
+    color: #5a5854;
+    background-color: #f2f2f2;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    padding: 5px 5px 5px 10px;
+    width:100%;
+}
+
+input {
+    font-size: 1.2em;
+    color: #5a5854;
+    background-color: #f2f2f2;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    padding: 5px 5px 5px 10px;
+    display: inline-block;
+}
+
+input:focus {
+    border: 1px dotted #dcdcdc;
+    outline: none;
+}
+
+input#submit {
+    color: #ffffff;
+    background-color: #665544;
+    border: none;
+    border-radius: 5px;
+}
+
+input#submit:hover {
+    color: #665544;
+    background-color: #efefef;
+}
+
+th {
+    font-size: 1.2em;
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid brown;
+
+}
+
+td {
+    padding: 10px;
+}
+
+ul {
+    list-style:none;
+    padding-left:0;
+}
+
+li {
+    line-height: 3em;
+}
+
+a {
+    font-size: 1.5em;
 }
 
 #title {
-    background:gray;
+    background:grey;
     text-align:center;
     font-weight:bold;
     padding: 0.5em;
-    font-size: 1.5em;
     color: white;
 }
 
-#content{
-    display: flex;
-}
-
-#directions{
-    float:left;
-    width: 100%;
-    background:lightgreen;
-    padding: 1em;
-}
-
-#middle{
-    overflow:hidden;
-}
-
-#ingredients{
-    float: right;
+#aside {
+    display:block;
     background:lightgrey;
-    max-width: 50em;
-    min-width: 15em;
     padding: 1em;
     white-space: wrap;
+}
+
+#aside2 {
+    display:block;
+    background:lightgrey;
+    padding: 1em;
+    white-space: wrap;
+}
+
+#content {
+    display: block;
+    background:lightblue;
+    padding: 1em;
+    white-space: wrap;
+}
+
+.boxsizingBorder {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }

@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/editrecipe$', views.EditRecipe.as_view(), name='editrecipe'),
     url(r'^addrecipe/$', views.addrecipe, name='addrecipe'),
     url(r'^(?P<recipeId>[0-9]+)/updaterecipe/$', views.updaterecipe, name='updaterecipe'),
+    url(r'^(?P<recipeId>[0-9]+)/updateingredient/$', views.updateingredient, name='updateingredient'),
 ]

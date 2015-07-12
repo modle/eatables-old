@@ -4,28 +4,43 @@
 <link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
 <div id="title">
     Edit: {{ recipe.name }}
 </div>
+<a href="{% url 'menu:index' %}">Back to Recipe List</a>
+<a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
 <div id="content">
-    <div id="directions">
-        <a href="{% url 'menu:index' %}">Back to Recipe List</a>
-        <a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
-        <br><br>
-        <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
-        {% csrf_token %}
-            <input type=text name="method" value="{{ recipe.prepMethod }}">Prep Method<br><br>
-            <input type=text name="temp" value="{{ recipe.temperature }}">Temperature Setting<br><br>
-            <input type=text name="prep" value="{{ recipe.prepTime }}">Prep Time (minutes)<br><br>
-            <input type=text name="cook" value="{{ recipe.cookTime }}">Cook Time (minutes)<br><br>
-            <input type=text name="serves" value="{{ recipe.servings }}">Servings<br><br>
-            Directions<br>
-            <textarea name="directions" ROWS=4 COLS=30>{{ recipe.directions }}</textarea><br><br>
-            <input type=submit value="Update Recipe Details" />
-        </form>
+    <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
+    {% csrf_token %}
+        Name<br><input type=text name="name" value="{{ recipe.name }}"><br><br>
+        Prep Method<br><input type=text name="method" value="{{ recipe.prepMethod }}"><br><br>
+        Temperature<br><input type=text name="temp" value="{{ recipe.temperature }}"><br><br>
+        Prep Time (minutes)<br><input type=text name="prep" value="{{ recipe.prepTime }}"><br><br>
+        Cook Time (minutes)<br><input type=text name="cook" value="{{ recipe.cookTime }}"><br><br>
+        Servings<br><input type=text name="serves" value="{{ recipe.servings }}"><br><br>
+        Directions (HTML)<br><textarea name="directions" ROWS=15 COLS=35>{{ recipe.directions }}</textarea><br><br>
+        <input type=submit value="Update Recipe Details" id="submit"/>
+    </form>
 
-    </div>
-    <div id="middle">
-    </div>
+    <form action="{% url 'menu:updateingredient' recipe.id %}" method="post">
+    {% csrf_token %}
+        <table>
+            <tr>
+                <th>Delete?</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Unit</th>
+            </tr>
+            {% for i in recipe.ingredient_set.all %}
+            <tr>
+                <td><input type=checkbox name="{{i.id}}" id="i{{ forloop.counter }}" value={{i.id}}></td>
+                <td><input type=text name="{{i.id}},name" value="{{ i.name }}"></td>
+                <td><input type=text name="{{i.id}},amount" value="{{ i.amount }}"></td>
+                <td><input type=text name="{{i.id}},unit" value="{{ i.unit }}"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <input type=submit value="Update Recipe Details" id="submit"/>
+    </form>
+</div>
 </div>

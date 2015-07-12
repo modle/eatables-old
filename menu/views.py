@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, get_list_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
@@ -21,12 +21,14 @@ def recipedetails(request, recipeId):
 def addrecipe(request):
     return render(request, 'menu/addrecipe.html')
 
+
+
 class EditRecipe(generic.DetailView):
     model = Recipe
     template_name = 'menu/editrecipe.html'
-
     def get_queryset(self):
         return Recipe.objects.all()
+
 
 def updaterecipe(request, recipeId):
     r = get_object_or_404(Recipe, pk=recipeId)
@@ -39,7 +41,7 @@ def updaterecipe(request, recipeId):
         directions = request.POST['directions']
     except (KeyError, Recipe.DoesNotExist):
         return render(request, 'menu/editrecipe.html', {
-            'recipeId': r,
+            'recipeId': r.id,
             'error_message': "lolError",
         })
     else:
@@ -49,5 +51,21 @@ def updaterecipe(request, recipeId):
         r.cookTime = cook_time
         r.servings = servings
         r.directions = directions
+
         r.save()
         return HttpResponseRedirect(reverse('menu:recipedetails', args=(r.id,)))
+
+def updateingredient(request, recipeId):
+    ilist = list(Ingredient.objects.filter(recipe_id=recipeId))
+    for i in ilist:
+        for key in request.POST:
+            value = request.POST[key]
+            for key, value in request.POST.iteritems():
+                k_name = key.partition(',')
+                i_id = k_name[0]
+                i_field = k_name[2]
+                if i.id == k_name[0]:
+                    i.i_field = value
+                    i.save()
+    return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
+    # return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))

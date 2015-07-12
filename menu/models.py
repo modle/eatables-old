@@ -4,13 +4,13 @@ from django.db import models
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    prepMethod = models.CharField(max_length=200)
-    temperature = models.CharField(max_length=200)
-    directions = models.TextField()
-    url = models.CharField(max_length=200)
-    servings = models.IntegerField()
-    prepTime = models.IntegerField()
-    cookTime = models.IntegerField()
+    prepMethod = models.CharField(max_length=200, default=None)
+    temperature = models.CharField(max_length=200, default=None)
+    directions = models.TextField(default=None)
+    url = models.CharField(max_length=200, default=None)
+    servings = models.IntegerField(default=None)
+    prepTime = models.IntegerField(default=None)
+    cookTime = models.IntegerField(default=None)
     def __str__(self):
         return self.name + "; " + self.prepMethod
 
@@ -21,7 +21,7 @@ class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     recipe = models.ForeignKey(Recipe)
-    amount = models.DecimalField(max_digits=5, decimal_places=2)
-    unit = models.CharField(max_length=200)
+    amount = models.DecimalField(max_digits=5, decimal_places=2, default=None)
+    unit = models.CharField(max_length=200, default=None)
     def __str__(self):
-        return str(self.amount) + " " + self.unit + " " + self.name
+        return str(self.id) + " " + str(self.amount) + " " + self.unit + " " + self.name

@@ -8,34 +8,36 @@
         {{ r.name }}
     {% endfor %}
 </div>
-<div id="content">
-    <div id="directions">
-        <a href="{% url 'menu:index' %}">Back to Recipe List</a>
-        {% for r in recipe_result %}
-            <a href="{% url 'menu:editrecipe' r.id %}">Edit Recipe</a>
+<a href="{% url 'menu:index' %}">Back to Recipe List</a>
+{% for r in recipe_result %}
+    <a href="{% url 'menu:editrecipe' r.id %}">Edit Recipe</a>
+{% endfor %}
+<div id="aside">
+    <h3>Ingredients</h3>
+    <input type=button value="Add Checked to List" id="submit"><br><br>
+    <ul>
+        {% for i in ingredient_result %}
+            <li><input type="checkbox" name="ingredient" value={{i.id}}>{{ i.name }} - {{ i.amount }} {{ i.unit }}</li>
         {% endfor %}
-        <h3>Directions</h3>
-        {% if recipe_result %}
-            {% for r in recipe_result %}
-                {{ r.directions | safe }}
-            {% endfor %}
-        {% else %}
-            No directions exist for this recipe in the database. Just do whatever, I suppose.
-        {% endif %}
-    </div>
-    <div id="middle">
-    </div>
-    <div id="ingredients">
-        <h3>Ingredients</h3>
-        <input type=button value="Add Checked to List"><br><br>
-        {% if ingredient_result %}
-            {% for i in ingredient_result %}
-                <input type="checkbox" name="ingredient" value={{i.id}}> {{ i.name }} - {{ i.amount }} {{ i.unit }}<br>
-            {% endfor %}
-        {% else %}
-            No ingredients in result set. Make something from nothing.
-        {% endif %}<br>
-    </div>
-
+    </ul>
 </div>
+<div id="content">
+    <h3>Directions</h3>
+    {% for r in recipe_result %}
+        {{ r.directions | safe }}
+    {% endfor %}
+</div>
+<div id="aside2">
+    {% for r in recipe_result %}
+        <ul>
+            <li>Method: {{ r.prepMethod }}</li>
+            <li>Temp: {{ r.temperature }}</li>
+            <li>Prep Time: {{ r.prepTime }}</li>
+            <li>Cook Time: {{ r.cookTime }}</li>
+            <li>Servings: {{ r.servings }}</li>
+            <li>URL: {{ r.url }}</li>
+        </ul>
+    {% endfor %}
+</div>
+
 <div style="clear:both"></div>
