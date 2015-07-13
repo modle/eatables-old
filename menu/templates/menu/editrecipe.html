@@ -12,35 +12,26 @@
 <div id="content">
     <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
     {% csrf_token %}
-        Name<br><input type=text name="name" value="{{ recipe.name }}"><br><br>
-        Prep Method<br><input type=text name="method" value="{{ recipe.prepMethod }}"><br><br>
-        Temperature<br><input type=text name="temp" value="{{ recipe.temperature }}"><br><br>
-        Prep Time (minutes)<br><input type=text name="prep" value="{{ recipe.prepTime }}"><br><br>
-        Cook Time (minutes)<br><input type=text name="cook" value="{{ recipe.cookTime }}"><br><br>
-        Servings<br><input type=text name="serves" value="{{ recipe.servings }}"><br><br>
+        Name<br><input type=text name="name" value="{{ recipe.name }}" id="text"><br><br>
+        Prep Method<br><input type=text name="method" value="{{ recipe.prepMethod }}" id="text"><br><br>
+        Temperature<br><input type=text name="temp" value="{{ recipe.temperature }}" id="text"><br><br>
+        Prep Time (minutes)<br><input type=text name="prep" value="{{ recipe.prepTime }}" id="text"><br><br>
+        Cook Time (minutes)<br><input type=text name="cook" value="{{ recipe.cookTime }}" id="text"><br><br>
+        Servings<br><input type=text name="serves" value="{{ recipe.servings }}" id="text"><br><br>
         Directions (HTML)<br><textarea name="directions" ROWS=15 COLS=35>{{ recipe.directions }}</textarea><br><br>
         <input type=submit value="Update Recipe Details" id="submit"/>
     </form>
 
     <form action="{% url 'menu:updateingredient' recipe.id %}" method="post">
     {% csrf_token %}
-        <table>
-            <tr>
-                <th>Delete?</th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Unit</th>
-            </tr>
-            {% for i in recipe.ingredient_set.all %}
-            <tr>
-                <td><input type=checkbox name="{{i.id}}" id="i{{ forloop.counter }}" value={{i.id}}></td>
-                <td><input type=text name="{{i.id}},name" value="{{ i.name }}"></td>
-                <td><input type=text name="{{i.id}},amount" value="{{ i.amount }}"></td>
-                <td><input type=text name="{{i.id}},unit" value="{{ i.unit }}"></td>
-            </tr>
-            {% endfor %}
-        </table>
-        <input type=submit value="Update Recipe Details" id="submit"/>
+        {% for i in recipe.ingredient_set.all %}
+            <fieldset name = "{{i.id}},ingredients">
+                <legend><a href = "{% url 'menu:deleteingredient' i.id %}" method="post">Delete</a></legend>
+                <input type=text name="{{i.id}},name" value="{{ i.name }}">
+                <input type=text name="{{i.id}},amount" value="{{ i.amount }}">
+                <input type=text name="{{i.id}},unit" value="{{ i.unit }}">
+            </fieldset>
+        {% endfor %}
+        <input type=submit value="Update Ingredients" id="submit"/>
     </form>
-</div>
 </div>
