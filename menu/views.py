@@ -3,31 +3,55 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 
-from .models import Recipe, Ingredient
+from .models import Recipe, Ingredient, ShoppingList
 
-def index(request):
-    recipe_list = Recipe.objects.all() #[:5]
-    context = {'recipe_list': recipe_list}
-    return render(request, 'menu/index.html', context)
+# def index(request):
+#     recipe_list = Recipe.objects.all()
+#     context = {'recipe_list': recipe_list}
+#     return render(request, 'menu/index.html', context)
 
+class Index(generic.ListView):
+    model = Recipe
+    template_name = 'menu/index.html'
 
-def recipedetails(request, recipeId):
-    recipe_result = Recipe.objects.filter(id=recipeId)
-    ingredient_result = Ingredient.objects.filter(recipe_id=recipeId)
-    context = {'ingredient_result': ingredient_result, 'recipe_result': recipe_result}
-    return render(request, 'menu/recipedetails.html', context)
+    def get_queryset(self):
+        return Recipe.objects.all()
+
+def addtoshoppinglist(request, recipeId):
+    for key in request.POST:
+        if key != 'csrfmiddlewaretoken':
+            sl = ShoppingList(ingredient_id=key, user="1")
+            sl.save()
+    return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
+
+class ShoppingListView(generic.ListView):
+    model = ShoppingList
+    template_name = 'menu/shoppinglist.html'
+
+    def get_queryset(self):
+        return ShoppingList.objects.all()
+
+class RecipeDetail(generic.DetailView):
+    model = Recipe
+    template_name = 'menu/recipedetails.html'
+
+    def get_queryset(self):
+        return Recipe.objects.all()
 
 def addrecipe(request):
-    return render(request, 'menu/addrecipe.html')
+    r = Recipe(name="Update Me")
+    r.save()
+    return HttpResponseRedirect(reverse('menu:index'))
 
-
+def deleterecipe(request):
+    return HttpResponseRedirect(reverse('menu:index'))
 
 class EditRecipe(generic.DetailView):
     model = Recipe
     template_name = 'menu/editrecipe.html'
+
     def get_queryset(self):
         return Recipe.objects.all()
-
 
 def updaterecipe(request, recipeId):
     r = get_object_or_404(Recipe, pk=recipeId)
@@ -60,7 +84,7 @@ def updateingredient(request, recipeId):
         key_split = key.split(',')
         ingredient_id = key_split[0]
         
-        #Awkwardly avoid the middlewaretoken that is being submitted
+        # Awkwardly avoid the middlewaretoken that is being submitted
         if ingredient_id != 'csrfmiddlewaretoken':
             ingredient_field = key_split[1]
             ingredient = Ingredient.objects.get(pk=ingredient_id)

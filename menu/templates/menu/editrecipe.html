@@ -22,7 +22,7 @@
         Directions (HTML)<br><textarea name="directions" ROWS=15 COLS=35>{{ recipe.directions }}</textarea><br><br>
         <input type=submit value="Update Recipe Details" id="submit"/>
     </form>
-    <hr>
+    <hr noshade>
     <h2>Edit Ingredients</h2>
     <form action="{% url 'menu:updateingredient' recipe.id %}" method="post">
     {% csrf_token %}
@@ -36,6 +36,6 @@
             </fieldset>
         {% endfor %}
         <br>
-        <input type=submit value="Update Ingredients" id="submit"/>
+        <input type=submit value="Update Ingredients" id="submit">
     </form>
 </div>

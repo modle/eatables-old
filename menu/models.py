@@ -4,13 +4,13 @@ from django.db import models
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    prepMethod = models.CharField(max_length=200, default=None)
-    temperature = models.CharField(max_length=200, default=None)
-    directions = models.TextField(default=None)
-    url = models.CharField(max_length=200, default=None)
-    servings = models.IntegerField(default=None)
-    prepTime = models.IntegerField(default=None)
-    cookTime = models.IntegerField(default=None)
+    prepMethod = models.CharField(max_length=200, default=None, null=True)
+    temperature = models.CharField(max_length=200, default=None, null=True)
+    directions = models.TextField(default=None, null=True)
+    url = models.CharField(max_length=200, default=None, null=True)
+    servings = models.IntegerField(default=None, null=True)
+    prepTime = models.IntegerField(default=None, null=True)
+    cookTime = models.IntegerField(default=None, null=True)
     def __str__(self):
         return self.name + "; " + self.prepMethod
 
@@ -22,6 +22,13 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=200)
     recipe = models.ForeignKey(Recipe)
     amount = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
-    unit = models.CharField(max_length=200, default=None)
+    unit = models.CharField(max_length=200, default=None, null=True)
     def __str__(self):
         return str(self.id) + " " + str(self.amount) + " " + self.unit + " " + self.name
+
+class ShoppingList(models.Model):
+    id = models.AutoField(primary_key=True)
+    ingredient = models.ForeignKey(Ingredient)
+    user = models.IntegerField(default=0, null=True)
+    def __str__(self):
+        return str(self.id) + " " + str(self.ingredient_id) + " " + self.user

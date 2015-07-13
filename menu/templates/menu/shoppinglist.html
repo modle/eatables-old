@@ -3,10 +3,14 @@
 <link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
 <div id="title">
-    Add Recipe
+    Shopping List
 </div>
 <a href="{% url 'menu:index' %}">Back to Recipe List</a>
 <div id="content">
+    <ul>
+    {% for sl in shoppinglist_list %}
+        <li>{{sl.ingredient.name}} - {{sl.ingredient.amount}} - {{sl.ingredient.unit}}
+    {% endfor %}
+    </ul>
 </div>

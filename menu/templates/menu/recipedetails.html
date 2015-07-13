@@ -4,40 +4,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <div id="title">
-    {% for r in recipe_result %}
-        {{ r.name }}
-    {% endfor %}
+    {{ recipe.name }}
 </div>
 <a href="{% url 'menu:index' %}">Back to Recipe List</a>
-{% for r in recipe_result %}
-    <a href="{% url 'menu:editrecipe' r.id %}">Edit Recipe</a>
-{% endfor %}
+<a href="{% url 'menu:editrecipe' recipe.id %}">Edit Recipe</a>
+<a href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
 <div id="aside">
     <h3>Ingredients</h3>
-    <input type=button value="Add Checked to List" id="submit"><br><br>
-    <ul>
-        {% for i in ingredient_result %}
-            <li><input type="checkbox" name="ingredient" value={{i.id}}>{{ i.name }} - {{ i.amount }} {{ i.unit }}</li>
-        {% endfor %}
-    </ul>
+    <form action="{% url 'menu:addtoshoppinglist' recipe.id %}" method="post">
+    {% csrf_token %}
+        <ul>
+            {% for i in recipe.ingredient_set.all %}
+                <li><input type="checkbox" name={{i.id}} value={{i.id}}>{{ i.name }} - {{ i.amount }} {{ i.unit }}</li>
+            {% endfor %}
+        </ul>
+        <input type=submit value="Add Checked to List" id="submit">
+    </form>
 </div>
 <div id="content">
     <h3>Directions</h3>
-    {% for r in recipe_result %}
-        {{ r.directions | safe }}
-    {% endfor %}
+    {{ recipe.directions | safe }}
 </div>
 <div id="aside2">
-    {% for r in recipe_result %}
-        <ul>
-            <li>Method: {{ r.prepMethod }}</li>
-            <li>Temp: {{ r.temperature }}</li>
-            <li>Prep Time: {{ r.prepTime }}</li>
-            <li>Cook Time: {{ r.cookTime }}</li>
-            <li>Servings: {{ r.servings }}</li>
-            <li>URL: {{ r.url }}</li>
-        </ul>
-    {% endfor %}
+    <ul>
+        <li>Method: {{ recipe.prepMethod }}</li>
+        <li>Temp: {{ recipe.temperature }}</li>
+        <li>Prep Time: {{ recipe.prepTime }}</li>
+        <li>Cook Time: {{ recipe.cookTime }}</li>
+        <li>Servings: {{ recipe.servings }}</li>
+        <li>URL: {{ recipe.url }}</li>
+    </ul>
 </div>
 
 <div style="clear:both"></div>

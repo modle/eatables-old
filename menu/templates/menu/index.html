@@ -8,6 +8,7 @@
     Recipe Home
 </div>
 <a href = "{% url 'menu:addrecipe' %}">Add Recipe</a>
+<a href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
 <div id="content">
     <ul>
     {% for recipe in recipe_list %}
