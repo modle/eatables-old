@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load menu_extras %}
 
 <link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +16,7 @@
     {% csrf_token %}
         <ul>
             {% for i in recipe.ingredient_set.all %}
-                <li><input type="checkbox" name={{i.id}} value={{i.id}}>{{ i.name }} - {{ i.amount }} {{ i.unit }}</li>
+                <li><input type="checkbox" name={{i.id}} value={{i.id}}>{{i.amount|showinteger}} {{ i.amount|showfraction }} {{ i.unit }} {{ i.name }}, {{ i.comment }}</li>
             {% endfor %}
         </ul>
         <input type=submit value="Add Checked to List" id="submit">

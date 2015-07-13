@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, render, get_list_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
+from decimal import Decimal
+from fractions import Fraction
 
 from .models import Recipe, Ingredient, ShoppingList
 
@@ -20,7 +22,7 @@ class Index(generic.ListView):
 def addtoshoppinglist(request, recipeId):
     for key in request.POST:
         if key != 'csrfmiddlewaretoken':
-            sl = ShoppingList(ingredient_id=key, user="1")
+            sl = ShoppingList(ingredient_id=key, status="1")
             sl.save()
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
 
@@ -88,9 +90,13 @@ def updateingredient(request, recipeId):
         if ingredient_id != 'csrfmiddlewaretoken':
             ingredient_field = key_split[1]
             ingredient = Ingredient.objects.get(pk=ingredient_id)
-            
+
+            value = (request.POST[key])
+            if ingredient_field == 'amount' and '/' in value:
+                value = float(Fraction(value))
+
             # Update the field on the ingredient from this line
-            setattr(ingredient, ingredient_field, request.POST[key])
+            setattr(ingredient, ingredient_field, value)
             ingredient.save()
 
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))

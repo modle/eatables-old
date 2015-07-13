@@ -10,7 +10,7 @@
 <div id="content">
     <ul>
     {% for sl in shoppinglist_list %}
-        <li>{{sl.ingredient.name}} - {{sl.ingredient.amount}} - {{sl.ingredient.unit}}
+        <li><input type="checkbox" name={{sl.id}} value={{sl.id}}>{{sl.ingredient.name}} - {{sl.ingredient.amount}} {{sl.ingredient.unit}}
     {% endfor %}
     </ul>
 </div>
