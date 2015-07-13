@@ -76,3 +76,8 @@ def deleteingredient(request, ingredientId):
     i = Ingredient.objects.get(pk=ingredientId)
     Ingredient.objects.filter(pk=ingredientId).delete()
     return HttpResponseRedirect(reverse('menu:editrecipe', args=(i.recipe_id,)))
+
+def addingredient(request, recipeId):
+    r = Recipe.objects.get(pk=recipeId)
+    r.ingredient_set.create(name="update me", amount="0.0", unit="")
+    return HttpResponseRedirect(reverse('menu:editrecipe', args=(recipeId,)))

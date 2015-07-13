@@ -10,6 +10,7 @@
 <a href="{% url 'menu:index' %}">Back to Recipe List</a>
 <a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
 <div id="content">
+    <h2>Edit Recipe Details</h2>
     <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
     {% csrf_token %}
         Name<br><input type=text name="name" value="{{ recipe.name }}" id="text"><br><br>
@@ -21,17 +22,20 @@
         Directions (HTML)<br><textarea name="directions" ROWS=15 COLS=35>{{ recipe.directions }}</textarea><br><br>
         <input type=submit value="Update Recipe Details" id="submit"/>
     </form>
-
+    <hr>
+    <h2>Edit Ingredients</h2>
     <form action="{% url 'menu:updateingredient' recipe.id %}" method="post">
     {% csrf_token %}
+        <p><a href = "{% url 'menu:addingredient' recipe.id %}" method="post">Add new ingredient</a></p>
         {% for i in recipe.ingredient_set.all %}
             <fieldset name = "{{i.id}},ingredients">
-                <legend><a href = "{% url 'menu:deleteingredient' i.id %}" method="post">Delete</a></legend>
+                <legend><a href = "{% url 'menu:deleteingredient' i.id %}" method="post">Delete this ingredient</a></legend>
                 <input type=text name="{{i.id}},name" value="{{ i.name }}">
                 <input type=text name="{{i.id}},amount" value="{{ i.amount }}">
                 <input type=text name="{{i.id}},unit" value="{{ i.unit }}">
             </fieldset>
         {% endfor %}
+        <br>
         <input type=submit value="Update Ingredients" id="submit"/>
     </form>
 </div>
