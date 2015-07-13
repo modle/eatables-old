@@ -5,7 +5,6 @@ from django.views import generic
 
 from .models import Recipe, Ingredient
 
-
 def index(request):
     recipe_list = Recipe.objects.all() #[:5]
     context = {'recipe_list': recipe_list}
@@ -56,16 +55,19 @@ def updaterecipe(request, recipeId):
         return HttpResponseRedirect(reverse('menu:recipedetails', args=(r.id,)))
 
 def updateingredient(request, recipeId):
-    ilist = list(Ingredient.objects.filter(recipe_id=recipeId))
-    for i in ilist:
-        for key in request.POST:
-            value = request.POST[key]
-            for key, value in request.POST.iteritems():
-                k_name = key.partition(',')
-                i_id = k_name[0]
-                i_field = k_name[2]
-                if i.id == k_name[0]:
-                    i.i_field = value
-                    i.save()
+    # loop through post form
+    for key in request.POST:
+        key_split = key.split(',')
+        ingredient_id = key_split[0]
+        
+        #Awkwardly avoid the middlewaretoken that is being submitted
+        if ingredient_id != 'csrfmiddlewaretoken':
+            ingredient_field = key_split[1]
+            ingredient = Ingredient.objects.get(pk=ingredient_id)
+            
+            # Update the field on the ingredient from this line
+            setattr(ingredient, ingredient_field, request.POST[key])
+            ingredient.save()
+
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
     # return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
