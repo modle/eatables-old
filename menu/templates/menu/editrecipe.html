@@ -7,9 +7,10 @@
 <div id="title">
     Edit: {{ recipe.name }}
 </div>
-<a href="{% url 'menu:index' %}">Back to Recipe List</a>
-<a href = "{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
 <div id="content">
+    <a class="buttonnav" href="{% url 'menu:index' %}">Back to Recipe List</a>
+    <a class="buttonnav" href="{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
+    <hr noshade><hr noshade>
     <h2>Edit Recipe Details</h2>
     <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
     {% csrf_token %}

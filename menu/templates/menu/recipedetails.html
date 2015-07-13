@@ -7,10 +7,12 @@
 <div id="title">
     {{ recipe.name }}
 </div>
-<a href="{% url 'menu:index' %}">Back to Recipe List</a>
-<a href="{% url 'menu:editrecipe' recipe.id %}">Edit Recipe</a>
-<a href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
+
 <div id="aside">
+    <a class="buttonnav" href="{% url 'menu:index' %}">Back to Recipe List</a>
+    <a class="buttonnav" href="{% url 'menu:editrecipe' recipe.id %}">Edit Recipe</a>
+    <a class="buttonnav" href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
+    <hr noshade><hr noshade>
     <h3>Ingredients</h3>
     <form action="{% url 'menu:addtoshoppinglist' recipe.id %}" method="post">
     {% csrf_token %}
@@ -33,7 +35,7 @@
         <li>Prep Time: {{ recipe.prepTime }}</li>
         <li>Cook Time: {{ recipe.cookTime }}</li>
         <li>Servings: {{ recipe.servings }}</li>
-        <li>URL: {{ recipe.url }}</li>
+        <li><a href="{{ recipe.url }}">Source</a></li>
     </ul>
 </div>
 

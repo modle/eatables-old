@@ -28,7 +28,7 @@ def showfraction(value):
     if value_split[1] == '00':
         fraction = str('')
     else:
-        fraction = str(Fraction(decimal).limit_denominator(10))
+        fraction = str(Fraction(decimal).limit_denominator(100))
     return fraction
 
 @register.filter(name='showinteger')

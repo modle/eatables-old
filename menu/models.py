@@ -33,4 +33,3 @@ class ShoppingList(models.Model):
     status = models.IntegerField(default=0, null=True)
     def __str__(self):
         return str(self.id) + " " + str(self.ingredient_id) + " " + self.status
-

@@ -6,8 +6,9 @@
 <div id="title">
     Shopping List
 </div>
-<a href="{% url 'menu:index' %}">Back to Recipe List</a>
 <div id="content">
+    <a class="buttonnav" href="{% url 'menu:index' %}">Back to Recipe List</a>
+    <hr noshade><hr noshade>
     <ul>
     {% for sl in shoppinglist_list %}
         <li><input type="checkbox" name={{sl.id}} value={{sl.id}}>{{sl.ingredient.name}} - {{sl.ingredient.amount}} {{sl.ingredient.unit}}

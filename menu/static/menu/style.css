@@ -77,8 +77,28 @@ li {
     line-height: 3em;
 }
 
-a {
-    font-size: 1em;
+.button {
+    display: inline-block;
+    background: #4E9CAF;
+    padding: 1em;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    margin: .05em;
+    text-decoration: none;
+}
+
+.buttonnav{
+    display: inline-block;
+    background: #4E9CAF;
+    padding: .1em;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    margin: .05em;
+    text-decoration: none;
 }
 
 #title {

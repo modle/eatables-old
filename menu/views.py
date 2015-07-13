@@ -1,8 +1,7 @@
-from django.shortcuts import get_object_or_404, render, get_list_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
-from decimal import Decimal
 from fractions import Fraction
 
 from .models import Recipe, Ingredient, ShoppingList
@@ -90,8 +89,9 @@ def updateingredient(request, recipeId):
         if ingredient_id != 'csrfmiddlewaretoken':
             ingredient_field = key_split[1]
             ingredient = Ingredient.objects.get(pk=ingredient_id)
-
             value = (request.POST[key])
+
+            # If the user entered a fraction, convert it to a float!
             if ingredient_field == 'amount' and '/' in value:
                 value = float(Fraction(value))
 
