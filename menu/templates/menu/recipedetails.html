@@ -12,22 +12,22 @@
     <div>
         <a class="button" id="nav" href="{% url 'menu:index' %}">Back to Recipe List</a>
         <a class="button" id="nav" href="{% url 'menu:editrecipe' recipe.id %}">Edit Recipe</a>
-        <a class="button" id="nav" href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
+        <a class="button" id="nav" href="{% url 'menu:shoppinglist' %}">View Shopping List</a>
     </div><div style="clear:both"></div>
     <hr noshade><hr noshade>
     <h3>Ingredients</h3>
+
     <form action="{% url 'menu:addtoshoppinglist' recipe.id %}" method="post">
     {% csrf_token %}
-        <ul>
-            {% for i in recipe.ingredient_set.all %}
-                <li><input type="checkbox" name={{i.id}} value={{i.id}}>{{i.amount|showinteger}}{{ i.amount|showfraction }}{{ i.unit }} {{ i.name }}{% if i.comment %}, {{ i.comment }}{% endif %}
-                {% if i.shoppinglist_set.all %}
-                    <span class="onlist">On shopping list!</span>
-                {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-        <input type=submit value="Add Checked to List" id="submit">
+        {% for i in recipe.ingredient_set.all %}
+            <div>
+                {{i.amount|showinteger}}{{ i.amount|showfraction }}{{ i.unit }} {{ i.name }}{% if i.comment %}, {{ i.comment }}{% endif %}
+            </div>
+            <div class="ingredientList"><input type="checkbox" value={{i.amount}} id={{i.id}} name={{i.id}}><label for={{i.id}}></label></div>
+           <hr noshade>
+        {% endfor %}
+        <br><br>
+        <input type=submit value="Update Shopping List" id="submit">
     </form>
 </div>
 <div id="content">

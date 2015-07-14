@@ -11,9 +11,26 @@
         <a class="button" id="nav" href="{% url 'menu:index' %}">Back to Recipe List</a>
     </div><div style="clear:both"></div>
     <hr noshade><hr noshade>
-    <ul>
-    {% for sl in shoppinglist_list %}
-        <li><input type="checkbox" name={{sl.id}} value={{sl.id}}>{{sl.ingredient.name}} - {{sl.ingredient.amount}} {{sl.ingredient.unit}}
-    {% endfor %}
-    </ul>
+
+    <form action="{% url 'menu:updateshoppinglist' %}" method="post">
+    {% csrf_token %}
+
+        {% for sl in shoppinglist_list %}
+            {% if sl.status == 1 %}
+                    <del>{{sl.ingredient.name}} - {{sl.ingredient.amount}} {{sl.ingredient.unit}}</del>
+            {% else %}
+                {{sl.ingredient.name}} - {{sl.amount}} {{sl.ingredient.unit}}
+            {% endif %}
+
+            <div class="shoppingList">
+                <input type="hidden" value=0 name={{sl.id}} />
+                <input type="checkbox" value=1 id={{sl.id}} {% if sl.status == 1 %} checked {% endif %} name={{sl.id}} />
+                <label for={{sl.id}}></label>
+            </div>
+
+            <hr noshade>
+
+        {% endfor %}
+        <input type=submit value="Update Shopping List" id="submit">
+    </form>
 </div>

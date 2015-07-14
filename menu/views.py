@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from fractions import Fraction
+from decimal import Decimal
 
 from .models import Recipe, Ingredient, ShoppingList
 
@@ -21,8 +22,17 @@ class Index(generic.ListView):
 def addtoshoppinglist(request, recipeId):
     for key in request.POST:
         if key != 'csrfmiddlewaretoken':
-            sl = ShoppingList(ingredient_id=key, status="1")
-            sl.save()
+            value = (request.POST[key])
+
+            listItem, created = ShoppingList.objects.get_or_create(ingredient_id=key)
+            entry = get_object_or_404(ShoppingList, ingredient_id=key)
+            if created:
+                entry.amount = value
+            else:
+                entry.amount = entry.amount + Decimal(float(value))
+
+            entry.save()
+
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
 
 class ShoppingListView(generic.ListView):
@@ -31,6 +41,20 @@ class ShoppingListView(generic.ListView):
 
     def get_queryset(self):
         return ShoppingList.objects.all()
+
+def updateshoppinglist(request):
+    for key in request.POST:
+        shoppinglist_id = key
+
+        if shoppinglist_id != 'csrfmiddlewaretoken':
+            checked_status = ShoppingList.objects.get(pk=shoppinglist_id)
+            value = (request.POST[key])
+
+            # Update the field on the ingredient from this line
+            setattr(checked_status, "status", value)
+            checked_status.save()
+
+    return HttpResponseRedirect(reverse('menu:shoppinglist'))
 
 class RecipeDetail(generic.DetailView):
     model = Recipe

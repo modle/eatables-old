@@ -15,5 +15,7 @@ urlpatterns = [
     url(r'^(?P<recipeId>[0-9]+)/addingredient/$', views.addingredient, name='addingredient'),
     url(r'^(?P<ingredientId>[0-9]+)/deleteingredient/$', views.deleteingredient, name='deleteingredient'),
     url(r'^(?P<recipeId>[0-9]+)/addtoshoppinglist/$', views.addtoshoppinglist, name='addtoshoppinglist'),
-    url(r'^shoppinglist/(?P<pk>[0-9]+)$', views.ShoppingListView.as_view(), name='shoppinglist'),
+    url(r'^shoppinglist/', views.ShoppingListView.as_view(), name='shoppinglist'),
+    url(r'^updateshoppinglist/$', views.updateshoppinglist, name='updateshoppinglist'),
+    url(r'^delete/$', views.updateshoppinglist, name='updateshoppinglist'),
 ]

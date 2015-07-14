@@ -133,6 +133,22 @@ li#nospace {
     background-color: #efefef;
 }
 
+.button#deleteforever {
+    background-color: red;
+    float:right;
+    padding: .2em;
+    text-align: center;
+    margin: .2em;
+    display: inline block;
+    font-size: .4em;
+}
+
+.button#deleteforever:hover {
+    color: #665544;
+    background-color: #efefef;
+}
+
+
 .onlist {
     background-color: green;
     padding: .5em;
@@ -189,4 +205,172 @@ li#nospace {
 
 #nafright {
     float:right;
+}
+
+/* Ingredient List */
+input[type=checkbox] {
+	visibility: hidden;
+}
+
+/*slider border */
+.ingredientList {
+    display: inline-block;
+	width: 6.7em;
+	height: .5em;
+	background: #4E9CAF;
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	border-radius: 1em;
+	position: absolute;
+
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+}
+
+/*right label*/
+.ingredientList:after {
+	content: '';
+	font: .4em/1em Arial, sans-serif;
+	color: #000;
+	position: absolute;
+	right: 1em;
+	top: .2em;
+	z-index: 0;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px rgba(255,255,255,.15);
+}
+
+/*left label*/
+.ingredientList:before {
+	content: 'ADD';
+	font: .4em/1em Arial, sans-serif;
+	color: #FFF;
+	position: absolute;
+	left: 1em;
+	top: .2em;
+	z-index: 0;
+	font-weight: bold;
+}
+
+/*this is the slider*/
+.ingredientList label {
+	display: block;
+	width: 3.5em;
+	height: .4em;
+
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	border-radius: 1em;
+
+	-webkit-transition: all .4s ease;
+	-moz-transition: all .4s ease;
+	-o-transition: all .4s ease;
+	-ms-transition: all .4s ease;
+	transition: all .4s ease;
+	cursor: pointer;
+	position: absolute;
+	top: .05em;
+	left: 3px;
+	z-index: 1;
+
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	background: #fcfff4;
+
+	background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+}
+
+.ingredientList input[type=checkbox]:checked + label {
+	left: 3em;
+}
+
+
+/* Shopping List */
+input[type=checkbox] {
+	visibility: hidden;
+}
+
+/*slider border */
+.shoppingList {
+	width: 6.7em;
+	height: .5em;
+	background: #4E9CAF;
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	border-radius: 1em;
+	position: absolute;
+
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+}
+
+/*right label*/
+.shoppingList:after {
+	content: 'DON''T GOT';
+	font: .4em/1em Arial, sans-serif;
+	color: #000;
+	position: absolute;
+	right: 1em;
+	top: .2em;
+	z-index: 0;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px rgba(255,255,255,.15);
+}
+
+/*left label*/
+.shoppingList:before {
+	content: 'GOT';
+	font: .4em/1em Arial, sans-serif;
+	color: #FFF;
+	position: absolute;
+	left: 1em;
+	top: .2em;
+	z-index: 0;
+	font-weight: bold;
+}
+
+/*this is the slider*/
+.shoppingList label {
+	display: block;
+	width: 3.5em;
+	height: .4em;
+
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	border-radius: 1em;
+
+	-webkit-transition: all .4s ease;
+	-moz-transition: all .4s ease;
+	-o-transition: all .4s ease;
+	-ms-transition: all .4s ease;
+	transition: all .4s ease;
+	cursor: pointer;
+	position: absolute;
+	top: .05em;
+	left: 3px;
+	z-index: 1;
+
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	background: #fcfff4;
+
+	background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+}
+
+.shoppingList input[type=checkbox]:checked + label {
+	left: 3em;
 }

@@ -62,6 +62,6 @@
         <input type=submit value="Update Ingredients" id="submit">
         <a class="button" href="{% url 'menu:recipedetails' recipe.id %}">Cancel</a>
         <hr noshade><hr noshade>
-        <a class="button" id="delete" href="{% url 'menu:deleterecipeforever' recipe.id %}">DELETE RECIPE FOREVER</a>
+        <a class="button" id="deleteforever" href="{% url 'menu:deleterecipeforever' recipe.id %}">DELETE RECIPE FOREVER</a>
     </form>
 </div>

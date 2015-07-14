@@ -16,27 +16,37 @@ class Recipe(models.Model):
         return self.name + "; " + self.prepMethod
 
     class Meta:
-        ordering = ('name', 'prepMethod')
+        ordering = ('name', )
 
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     comment = models.CharField(max_length=200, null=True, blank=True)
     recipe = models.ForeignKey(Recipe)
-    amount = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=True, blank=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
     unit = models.CharField(max_length=200, default=None, null=True)
     def __str__(self):
         return str(self.id) + " " + str(self.amount) + " " + self.unit + " " + self.name
 
+    class Meta:
+        ordering = ('id', )
+
 class ShoppingList(models.Model):
     id = models.AutoField(primary_key=True)
     ingredient = models.ForeignKey(Ingredient)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
     status = models.IntegerField(default=0, null=True)
     def __str__(self):
-        return str(self.id) + " " + str(self.ingredient_id) + " " + self.status
+        return str(self.id) + " " + str(self.ingredient_id) + " " + str(self.status) + " " + str(self.amount)
+
+    class Meta:
+        ordering = ('-status', 'ingredient__name', 'id')
 
 class IngredientMaster(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     def __str__(self):
         return str(self.id) + self.name
+
+    class Meta:
+        ordering = ('name', 'id')
