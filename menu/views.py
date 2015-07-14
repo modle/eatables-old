@@ -16,7 +16,7 @@ class Index(generic.ListView):
     template_name = 'menu/index.html'
 
     def get_queryset(self):
-        return Recipe.objects.all()
+        return Recipe.objects.filter(enabled=1)
 
 def addtoshoppinglist(request, recipeId):
     for key in request.POST:
@@ -44,7 +44,14 @@ def addrecipe(request):
     r.save()
     return HttpResponseRedirect(reverse('menu:index'))
 
-def deleterecipe(request):
+def disablerecipe(request, recipeId):
+    r = get_object_or_404(Recipe, pk=recipeId)
+    r.enabled = 0
+    r.save()
+    return HttpResponseRedirect(reverse('menu:index'))
+
+def deleterecipeforever(request, recipeId):
+    Recipe.objects.filter(pk=recipeId).delete()
     return HttpResponseRedirect(reverse('menu:index'))
 
 class EditRecipe(generic.DetailView):
@@ -56,28 +63,15 @@ class EditRecipe(generic.DetailView):
 
 def updaterecipe(request, recipeId):
     r = get_object_or_404(Recipe, pk=recipeId)
-    try:
-        prep_method = request.POST['method']
-        temperature = request.POST['temp']
-        prep_time = request.POST['prep']
-        cook_time = request.POST['cook']
-        servings = request.POST['serves']
-        directions = request.POST['directions']
-    except (KeyError, Recipe.DoesNotExist):
-        return render(request, 'menu/editrecipe.html', {
-            'recipeId': r.id,
-            'error_message': "lolError",
-        })
-    else:
-        r.prepMethod = prep_method
-        r.temperature = temperature
-        r.prepTime = prep_time
-        r.cookTime = cook_time
-        r.servings = servings
-        r.directions = directions
-
-        r.save()
-        return HttpResponseRedirect(reverse('menu:recipedetails', args=(r.id,)))
+    r.name = request.POST['name']
+    r.prepMethod = request.POST['method']
+    r.temperature = request.POST['temp']
+    r.prepTime = request.POST['prep']
+    r.cookTime = request.POST['cook']
+    r.servings = request.POST['serves']
+    r.directions = request.POST['directions']
+    r.save()
+    return HttpResponseRedirect(reverse('menu:recipedetails', args=(r.id,)))
 
 def updateingredient(request, recipeId):
     # loop through post form
@@ -92,22 +86,24 @@ def updateingredient(request, recipeId):
             value = (request.POST[key])
 
             # If the user entered a fraction, convert it to a float!
-            if ingredient_field == 'amount' and '/' in value:
-                value = float(Fraction(value))
+            if ingredient_field == 'amount':
+                if '/' in value:
+                    value = float(Fraction(value))
+                elif value == "":
+                    value = 0.0
 
             # Update the field on the ingredient from this line
             setattr(ingredient, ingredient_field, value)
             ingredient.save()
 
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
-    # return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
 
 def deleteingredient(request, ingredientId):
     i = Ingredient.objects.get(pk=ingredientId)
     Ingredient.objects.filter(pk=ingredientId).delete()
-    return HttpResponseRedirect(reverse('menu:editrecipe', args=(i.recipe_id,)))
+    return HttpResponseRedirect(reverse('menu:editrecipe', args=(i.recipe_id,))+'#ingredients')
 
 def addingredient(request, recipeId):
     r = Recipe.objects.get(pk=recipeId)
     r.ingredient_set.create(name="update me", amount="0.0", unit="")
-    return HttpResponseRedirect(reverse('menu:editrecipe', args=(recipeId,)))
+    return HttpResponseRedirect(reverse('menu:editrecipe', args=(recipeId,))+'#ingredients')

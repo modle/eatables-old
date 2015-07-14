@@ -8,11 +8,13 @@
     Recipe Home
 </div>
 <div id="content">
-    <a class="buttonnav" href="{% url 'menu:addrecipe' %}">Add Recipe</a>
-    <a class="buttonnav" href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
+    <div>
+        <a class="button" id="nav" href="{% url 'menu:addrecipe' %}">Add Recipe</a>
+        <a class="button" id="nav" href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
+    </div><div style="clear:both"></div>
     <hr noshade><hr noshade>
     {% for recipe in recipe_list %}
-        <a class="button" href = "{% url 'menu:recipedetails' recipe.id %}">{{ recipe.name }}</a>
+        <a class="button" id="recipe" href = "{% url 'menu:recipedetails' recipe.id %}">{{ recipe.name }}</a>
         <hr noshade>
     {% endfor %}
 </div>

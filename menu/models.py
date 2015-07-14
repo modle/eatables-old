@@ -11,6 +11,7 @@ class Recipe(models.Model):
     servings = models.IntegerField(default=None, null=True)
     prepTime = models.IntegerField(default=None, null=True)
     cookTime = models.IntegerField(default=None, null=True)
+    enabled = models.IntegerField(default=1)
     def __str__(self):
         return self.name + "; " + self.prepMethod
 
@@ -19,10 +20,10 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
     comment = models.CharField(max_length=200, null=True, blank=True)
     recipe = models.ForeignKey(Recipe)
-    amount = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+    amount = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=True, blank=True)
     unit = models.CharField(max_length=200, default=None, null=True)
     def __str__(self):
         return str(self.id) + " " + str(self.amount) + " " + self.unit + " " + self.name
@@ -33,3 +34,9 @@ class ShoppingList(models.Model):
     status = models.IntegerField(default=0, null=True)
     def __str__(self):
         return str(self.id) + " " + str(self.ingredient_id) + " " + self.status
+
+class IngredientMaster(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    def __str__(self):
+        return str(self.id) + self.name

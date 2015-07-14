@@ -39,8 +39,7 @@ input#text {
 }
 
 input:focus {
-    border: 1px dotted #dcdcdc;
-    outline: none;
+    border: 1px black;
 }
 
 input#submit {
@@ -74,32 +73,75 @@ ul {
 }
 
 li {
-    line-height: 3em;
+    line-height: 2em;
+}
+
+li#nospace {
+    line-height: 1em;
 }
 
 .button {
     display: inline-block;
-    background: #4E9CAF;
-    padding: 1em;
-    text-align: center;
+    background-color: #665544;
     border-radius: 5px;
     color: white;
-    font-weight: bold;
-    margin: .05em;
     text-decoration: none;
+    font-size: 1.2em;
+    padding: 5px 10px 5px 10px;
 }
 
-.buttonnav{
-    display: inline-block;
-    background: #4E9CAF;
-    padding: .1em;
+.button#recipe {
+    padding: .5em;
+}
+
+.button#recipe:hover {
+    color: #665544;
+    background-color: #efefef;
+}
+
+.button#nav {
+    background-color: #4E9CAF;
+    padding: .2em;
     text-align: center;
+    margin: .2em;
+    float: left;
+    display: inline block;
+    text-size: 1em;
+}
+
+.button:hover {
+    color: #665544;
+    background-color: #efefef;
+}
+
+.button#nav:hover {
+    color: #665544;
+    background-color: #efefef;
+}
+
+.button#delete {
+    background-color: red;
+    padding: .2em;
+    text-align: center;
+    margin: .2em;
+    display: inline block;
+    text-size: 1em;
+}
+
+.button#delete:hover {
+    color: #665544;
+    background-color: #efefef;
+}
+
+.onlist {
+    background-color: green;
+    padding: .5em;
+    font-size: .8em;
     border-radius: 5px;
     color: white;
-    font-weight: bold;
-    margin: .05em;
-    text-decoration: none;
+    margin: 0 3em;
 }
+
 
 #title {
     background:grey;
@@ -107,6 +149,7 @@ li {
     font-weight:bold;
     padding: 0.5em;
     color: white;
+    font-size: 2em;
 }
 
 #aside {
@@ -117,10 +160,20 @@ li {
 }
 
 #aside2 {
-    display:block;
-    background:lightgrey;
+    display:inline block;
+    background:lightblue;
     padding: 1em;
     white-space: wrap;
+    float: right;
+
+}
+#innercontent{
+    display: block;
+    background: lightblue;
+    white-space: wrap;
+    float: left;
+    width: 100%:
+
 }
 
 #content {
@@ -130,8 +183,10 @@ li {
     white-space: wrap;
 }
 
-.boxsizingBorder {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+#navleft {
+    float:left;
+}
+
+#nafright {
+    float:right;
 }

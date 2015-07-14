@@ -7,7 +7,9 @@
     Shopping List
 </div>
 <div id="content">
-    <a class="buttonnav" href="{% url 'menu:index' %}">Back to Recipe List</a>
+    <div>
+        <a class="button" id="nav" href="{% url 'menu:index' %}">Back to Recipe List</a>
+    </div><div style="clear:both"></div>
     <hr noshade><hr noshade>
     <ul>
     {% for sl in shoppinglist_list %}

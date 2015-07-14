@@ -9,16 +9,22 @@
 </div>
 
 <div id="aside">
-    <a class="buttonnav" href="{% url 'menu:index' %}">Back to Recipe List</a>
-    <a class="buttonnav" href="{% url 'menu:editrecipe' recipe.id %}">Edit Recipe</a>
-    <a class="buttonnav" href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
+    <div>
+        <a class="button" id="nav" href="{% url 'menu:index' %}">Back to Recipe List</a>
+        <a class="button" id="nav" href="{% url 'menu:editrecipe' recipe.id %}">Edit Recipe</a>
+        <a class="button" id="nav" href="{% url 'menu:shoppinglist' 1 %}">View Shopping List</a>
+    </div><div style="clear:both"></div>
     <hr noshade><hr noshade>
     <h3>Ingredients</h3>
     <form action="{% url 'menu:addtoshoppinglist' recipe.id %}" method="post">
     {% csrf_token %}
         <ul>
             {% for i in recipe.ingredient_set.all %}
-                <li><input type="checkbox" name={{i.id}} value={{i.id}}>{{i.amount|showinteger}} {{ i.amount|showfraction }} {{ i.unit }} {{ i.name }}, {{ i.comment }}</li>
+                <li><input type="checkbox" name={{i.id}} value={{i.id}}>{{i.amount|showinteger}}{{ i.amount|showfraction }}{{ i.unit }} {{ i.name }}{% if i.comment %}, {{ i.comment }}{% endif %}
+                {% if i.shoppinglist_set.all %}
+                    <span class="onlist">On shopping list!</span>
+                {% endif %}
+                </li>
             {% endfor %}
         </ul>
         <input type=submit value="Add Checked to List" id="submit">
@@ -28,14 +34,22 @@
     <h3>Directions</h3>
     {{ recipe.directions | safe }}
 </div>
-<div id="aside2">
+<div id="aside">
     <ul>
-        <li>Method: {{ recipe.prepMethod }}</li>
-        <li>Temp: {{ recipe.temperature }}</li>
-        <li>Prep Time: {{ recipe.prepTime }}</li>
-        <li>Cook Time: {{ recipe.cookTime }}</li>
-        <li>Servings: {{ recipe.servings }}</li>
-        <li><a href="{{ recipe.url }}">Source</a></li>
+        <li><b>Method</b>: {{ recipe.prepMethod }}</li>
+        <li><b>Temp</b>: {{ recipe.temperature }}</li>
+        {% if not recipe.prepTime %}
+            <li><b>Prep Time</b>: {{ recipe.prepTime }} </li>
+            {% else %}
+                <li><b>Prep Time</b>: {{ recipe.prepTime|minutestohours|floatformat:"2" }} hours</li>
+        {% endif %}
+        {% if not recipe.cookTime %}
+            <li><b>Cook Time</b>: {{ recipe.cookTime }}</li>
+            {% else %}
+                <li><b>Cook Time</b>: {{ recipe.cookTime|minutestohours }} hours</li>
+        {% endif %}
+        <li><b>Servings</b>: {{ recipe.servings }}</li>
+        <br><li><a class="button" href="{{ recipe.url }}">GoTo Recipe Source</a></li>
     </ul>
 </div>
 

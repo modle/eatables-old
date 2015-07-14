@@ -1,8 +1,10 @@
 from django import template
 from fractions import Fraction
+from decimal import Decimal
 
 register = template.Library()
 
+#filters
 @register.filter(name='minutestohours')
 def minutestohours(value):
     return value / 60.0
@@ -25,10 +27,10 @@ def converttofloat(value):
 def showfraction(value):
     value_split = str(value).split('.')
     decimal = '.' + value_split[1]
-    if value_split[1] == '00':
+    if value_split[1] == '00' or float(decimal) < 0.1:
         fraction = str('')
     else:
-        fraction = str(Fraction(decimal).limit_denominator(100))
+        fraction = str(Fraction(decimal).limit_denominator(10))
     return fraction
 
 @register.filter(name='showinteger')
@@ -37,5 +39,5 @@ def showinteger(value):
     if value_split[0] == '0':
         decimal = ''
     else:
-        decimal = value_split[0]
+        decimal = value_split[0] + ' '
     return decimal
