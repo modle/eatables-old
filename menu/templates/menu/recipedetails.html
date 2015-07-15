@@ -21,7 +21,10 @@
     {% csrf_token %}
         {% for i in recipe.ingredient_set.all %}
             <div>
-                {{i.amount|showinteger}}{{ i.amount|showfraction }}{{ i.unit }} {{ i.name }}{% if i.comment %}, {{ i.comment }}{% endif %}
+                {{i.amount|showinteger}}{{ i.amount|showfraction }} {{ i.unit }}
+                <!--need a better way to add the plural-->
+                    {% if i.amount > 1 and i.unit != "medium" and i.unit != "tsp" and i.unit != "tbsp" %}s{% endif %}
+                    {{ i.name }}{% if i.comment %}, {{ i.comment }}{% endif %}
             </div>
             <div class="ingredientList"><input type="checkbox" value={{i.amount}} id={{i.id}} name={{i.id}}><label for={{i.id}}></label></div>
            <hr noshade>

@@ -1,15 +1,15 @@
 from django.db import models
-from django.utils import timezone
+from datetime import datetime
 
 
 # Create your models here.
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    prepMethod = models.CharField(max_length=200, null=True, blank=True)
-    temperature = models.CharField(max_length=200, null=True, blank=True)
+    name = models.CharField(max_length=80)
+    prepMethod = models.CharField(max_length=30, null=True, blank=True)
+    temperature = models.CharField(max_length=10, null=True, blank=True)
     directions = models.TextField(null=True)
-    source = models.CharField(max_length=200, null=True, blank=True)
+    source = models.CharField(max_length=1000, null=True, blank=True)
     servings = models.IntegerField(null=True, blank=True)
     prepTime = models.IntegerField(null=True, blank=True)
     cookTime = models.IntegerField(null=True, blank=True)
@@ -23,10 +23,10 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
     recipe = models.ForeignKey(Recipe)
-    name = models.CharField(max_length=200, null=True, blank=True)
-    comment = models.CharField(max_length=200, null=True, blank=True)
+    name = models.CharField(max_length=80, null=True, blank=True)
+    comment = models.CharField(max_length=80, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
-    unit = models.CharField(max_length=200, null=True)
+    unit = models.CharField(max_length=30, null=True)
     def __str__(self):
         return str(self.id) + " " + str(self.amount) + " " + self.unit + " " + self.name
 
@@ -42,13 +42,13 @@ class ShoppingList(models.Model):
         return str(self.id) + " " + str(self.ingredient_id) + " " + str(self.status) + " " + str(self.amount)
 
     class Meta:
-        ordering = ('-status', 'ingredient__name', 'id')
+        ordering = ('status', 'ingredient__name', 'id')
 
 class IngredientMaster(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=80)
     def __str__(self):
-        return str(self.id) + self.name
+        return str(self.id) + str(self.name)
 
     class Meta:
         ordering = ('name', 'id')
@@ -57,10 +57,31 @@ class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     recipe = models.ForeignKey(Recipe)
     comment = models.TextField(null=True)
+    rating = models.IntegerField(null=True)
     user = models.IntegerField(default=1)
-    publishDate = models.DateTimeField('date published', default=timezone.now())
+    publishDate = models.DateTimeField(default=datetime.now)
     def __str__(self):
-        return str(self.id) + self.comment
+        return str(self.id) + str(self.comment)
 
     class Meta:
         ordering = ('-publishDate', '-id')
+
+class PurchaseHistory(models.Model):
+    id = models.AutoField(primary_key=True)
+    ingredient = models.ForeignKey(Ingredient)
+    purchaseAmount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
+    purchaseUnit = models.CharField(max_length=30, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
+    store = models.CharField(max_length=30)
+    lastPurchaseDate = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.id) + str(self.purchaseAmount) + str(self.price/self.purchaseAmount)
+
+    class Meta:
+        ordering = ('ingredient__name', 'id')
+
+class Document(models.Model):
+    docfile = models.FileField(upload_to='media/%Y/%m/%d')
+

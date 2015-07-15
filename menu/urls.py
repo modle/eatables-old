@@ -3,7 +3,6 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    # url(r'^$', views.index, name='index'),
     url(r'^(?P<pk>[0-9]+)/$', views.RecipeDetail.as_view(), name='recipedetails'),
     url(r'^$', views.Index.as_view(), name='index'),
     url(r'^(?P<pk>[0-9]+)/editrecipe$', views.EditRecipe.as_view(), name='editrecipe'),
@@ -19,4 +18,5 @@ urlpatterns = [
     url(r'^updateshoppinglist/$', views.updateshoppinglist, name='updateshoppinglist'),
     url(r'^delete/$', views.updateshoppinglist, name='updateshoppinglist'),
     url(r'^(?P<recipeId>[0-9]+)/addcomment/$', views.addcomment, name='addcomment'),
+    url(r'^showdocuments/$', views.showdocuments, name='showdocuments'),
 ]
