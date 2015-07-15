@@ -29,6 +29,7 @@
         Cook Time (minutes)<br><input type=text name="cook" value="{{ recipe.cookTime }}" id="text"><br><br>
         Servings<br><input type=text name="serves" value="{{ recipe.servings }}" id="text"><br><br>
         Directions (HTML)<br><textarea name="directions" ROWS=15 COLS=35>{{ recipe.directions }}</textarea><br><br>
+        URL<br><input type=text name="source" value="{{ recipe.source }}" id="text"><br><br>
         <input type=submit value="Update Recipe Details" id="submit"/>
         <a class="button" href="{% url 'menu:recipedetails' recipe.id %}">Cancel</a>
     </form>
@@ -47,6 +48,7 @@
                     <li id="nospace">{{ i.name }}, {{ i.amount }}, {{ i.unit }}</li>
                 </ul>
             {% endfor %}
+        <div id="ingredients"></div>
         <p><a class="button" href="{% url 'menu:addingredient' recipe.id %}" method="post">Add new ingredient</a></p>
         <div id="ingredients"></div>
         {% for i in recipe.ingredient_set.all %}

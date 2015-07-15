@@ -4,8 +4,9 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from fractions import Fraction
 from decimal import Decimal
+from django.utils import timezone
 
-from .models import Recipe, Ingredient, ShoppingList
+from .models import Recipe, Ingredient, ShoppingList, Comment, IngredientMaster
 
 # def index(request):
 #     recipe_list = Recipe.objects.all()
@@ -94,6 +95,7 @@ def updaterecipe(request, recipeId):
     r.cookTime = request.POST['cook']
     r.servings = request.POST['serves']
     r.directions = request.POST['directions']
+    r.source = request.POST['source']
     r.save()
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(r.id,)))
 
@@ -131,3 +133,8 @@ def addingredient(request, recipeId):
     r = Recipe.objects.get(pk=recipeId)
     r.ingredient_set.create(name="update me", amount="0.0", unit="")
     return HttpResponseRedirect(reverse('menu:editrecipe', args=(recipeId,))+'#ingredients')
+
+def addcomment(request, recipeId):
+    r = Recipe.objects.get(pk=recipeId)
+    r.comment_set.create(comment=request.POST['comment'])
+    return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,))+'#comments')

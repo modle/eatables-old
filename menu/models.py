@@ -1,16 +1,18 @@
 from django.db import models
+from django.utils import timezone
+
 
 # Create your models here.
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    prepMethod = models.CharField(max_length=200, default=None, null=True)
-    temperature = models.CharField(max_length=200, default=None, null=True)
-    directions = models.TextField(default=None, null=True)
-    url = models.CharField(max_length=200, default=None, null=True)
-    servings = models.IntegerField(default=None, null=True)
-    prepTime = models.IntegerField(default=None, null=True)
-    cookTime = models.IntegerField(default=None, null=True)
+    prepMethod = models.CharField(max_length=200, null=True, blank=True)
+    temperature = models.CharField(max_length=200, null=True, blank=True)
+    directions = models.TextField(null=True)
+    source = models.CharField(max_length=200, null=True, blank=True)
+    servings = models.IntegerField(null=True, blank=True)
+    prepTime = models.IntegerField(null=True, blank=True)
+    cookTime = models.IntegerField(null=True, blank=True)
     enabled = models.IntegerField(default=1)
     def __str__(self):
         return self.name + "; " + self.prepMethod
@@ -20,11 +22,11 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
+    recipe = models.ForeignKey(Recipe)
     name = models.CharField(max_length=200, null=True, blank=True)
     comment = models.CharField(max_length=200, null=True, blank=True)
-    recipe = models.ForeignKey(Recipe)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
-    unit = models.CharField(max_length=200, default=None, null=True)
+    unit = models.CharField(max_length=200, null=True)
     def __str__(self):
         return str(self.id) + " " + str(self.amount) + " " + self.unit + " " + self.name
 
@@ -50,3 +52,15 @@ class IngredientMaster(models.Model):
 
     class Meta:
         ordering = ('name', 'id')
+
+class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
+    recipe = models.ForeignKey(Recipe)
+    comment = models.TextField(null=True)
+    user = models.IntegerField(default=1)
+    publishDate = models.DateTimeField('date published', default=timezone.now())
+    def __str__(self):
+        return str(self.id) + self.comment
+
+    class Meta:
+        ordering = ('-publishDate', '-id')

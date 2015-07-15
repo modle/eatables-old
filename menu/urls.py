@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^shoppinglist/', views.ShoppingListView.as_view(), name='shoppinglist'),
     url(r'^updateshoppinglist/$', views.updateshoppinglist, name='updateshoppinglist'),
     url(r'^delete/$', views.updateshoppinglist, name='updateshoppinglist'),
+    url(r'^(?P<recipeId>[0-9]+)/addcomment/$', views.addcomment, name='addcomment'),
 ]
