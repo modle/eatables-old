@@ -1,6 +1,5 @@
 from django import template
 from fractions import Fraction
-from decimal import Decimal
 
 register = template.Library()
 
@@ -41,3 +40,8 @@ def showinteger(value):
     else:
         decimal = value_split[0] + ' '
     return decimal
+
+@register.inclusion_tag('hamburgermenu.html')
+def show_hamburger(bun):
+    blank = "blank"
+    return {'blank': blank}

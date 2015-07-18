@@ -1,8 +1,7 @@
 {% load staticfiles %}
 {% load menu_extras %}
-
-<link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% include "menu/hamburgermenu.html" %}
+{% include "menu/stylesheets.html" %}
 
 <div id="title">
     Recipe Home

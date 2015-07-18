@@ -1,8 +1,7 @@
 {% load staticfiles %}
 {% load menu_extras %}
-
-<link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% include "menu/hamburgermenu.html" %}
+{% include "menu/stylesheets.html" %}
 
 <div id="title">
     Edit: {{ recipe.name }}
@@ -28,7 +27,7 @@
         Prep Time (minutes)<br><input type=text name="prep" value="{{ recipe.prepTime }}" id="text"><br><br>
         Cook Time (minutes)<br><input type=text name="cook" value="{{ recipe.cookTime }}" id="text"><br><br>
         Servings<br><input type=text name="serves" value="{{ recipe.servings }}" id="text"><br><br>
-        Directions (HTML)<br><textarea name="directions" ROWS=15 COLS=35>{{ recipe.directions }}</textarea><br><br>
+        Directions (Use <a target="blank" href="https://en.wikipedia.org/wiki/Markdown#Example">Markdown</a> like all the cool kids)<br><textarea name="directions" ROWS=15 COLS=35>{{ recipe.directions }}</textarea><br><br>
         URL<br><input type=text name="source" value="{{ recipe.source }}" id="text"><br><br>
         <input type=submit value="Update Recipe Details" id="submit"/>
         <a class="button" href="{% url 'menu:recipedetails' recipe.id %}">Cancel</a>

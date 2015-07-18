@@ -1,7 +1,13 @@
 {% load staticfiles %}
+{% load menu_extras %}
+{% include "menu/hamburgermenu.html" %}
+{% include "menu/stylesheets.html" %}
 
-<link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!--<script src="{% static "js/jquery-1.11.1.js" %}"></script>-->
+<!--<script src="{% static "menu/js/jquery.js" %}"></script>-->
+<!--href="{% static 'menu/jquery.js' %}"-->
+
+
 
 <div id="title">
     Shopping List
@@ -16,11 +22,9 @@
     {% csrf_token %}
 
         {% for sl in shoppinglist_list %}
-            {% if sl.status == 1 %}
-                    <del>{{sl.ingredient.name}} - {{sl.ingredient.amount}} {{sl.ingredient.unit}}</del>
-            {% else %}
-                {{sl.ingredient.name}} - {{sl.amount}} {{sl.ingredient.unit}}
-            {% endif %}
+            {% if sl.status == 1 %}<del>{% endif %}
+            {{sl.ingredient.name}} - {{sl.amount|showinteger}}{{sl.amount|showfraction}} {{sl.ingredient.unit}}
+            {% if sl.status == 1 %}</del>{% endif %}
 
             <div class="shoppingList">
                 <input type="hidden" value=0 name={{sl.id}} />

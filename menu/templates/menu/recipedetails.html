@@ -1,8 +1,10 @@
 {% load staticfiles %}
 {% load menu_extras %}
+{% include "menu/hamburgermenu.html" %}
+{% include "menu/stylesheets.html" %}
+{% load markdown_deux_tags %}
 
-<link rel="stylesheet" type="text/css" media="only screen" href="{% static 'menu/style.css' %}" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!--<script type="text/javascript" src="{% static 'menu/js/jquery.js' %}" />-->
 
 <div id="title">
     {{ recipe.name }}
@@ -35,7 +37,9 @@
 </div>
 <div id="content">
     <h3>Directions</h3>
-    {{ recipe.directions | safe }}
+        {% markdown %}
+            {{ recipe.directions | safe }}
+        {% endmarkdown %}
 </div>
 <div id="aside">
     <ul>
