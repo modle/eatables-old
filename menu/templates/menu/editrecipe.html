@@ -14,12 +14,12 @@
     <hr noshade><hr noshade>
 
     <h2>Edit Recipe Details</h2>
+
+    <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
     <input type=submit value="Update Recipe Details" id="submit"/>
     <a class="button" href="{% url 'menu:recipedetails' recipe.id %}">Cancel</a>
     <hr noshade>
-
-    <form action="{% url 'menu:updaterecipe' recipe.id %}" method="post">
-    {% csrf_token %}
+{% csrf_token %}
         Name<br><input type=text name="name" value="{{ recipe.name }}" id="text"><br><br>
         Prep Method<br><input type=text name="method" value="{{ recipe.prepMethod }}" id="text"><br><br>
         Temperature<br><input type=text name="temp" value="{{ recipe.temperature }}" id="text"><br><br>

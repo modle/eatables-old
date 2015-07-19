@@ -65,7 +65,8 @@ class RecipeDetail(generic.DetailView):
 def addrecipe(request):
     r = Recipe(name="Update Me")
     r.save()
-    return HttpResponseRedirect(reverse('menu:index'))
+    return HttpResponseRedirect(reverse('menu:editrecipe', args=(r.id,)))
+
 
 def disablerecipe(request, recipeId):
     r = get_object_or_404(Recipe, pk=recipeId)
@@ -84,8 +85,9 @@ class EditRecipe(generic.DetailView):
     def get_queryset(self):
         return Recipe.objects.all()
 
+
 def updaterecipe(request, recipeId):
-    r = get_object_or_404(Recipe, pk=recipeId)
+    r = get_object_or_404(Recipe, id=recipeId)
     r.name = request.POST['name']
     r.prepMethod = request.POST['method']
     r.temperature = request.POST['temp']
@@ -96,6 +98,8 @@ def updaterecipe(request, recipeId):
     r.source = request.POST['source']
     r.save()
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(r.id,)))
+
+
 
 def updateingredient(request, recipeId):
     # loop through post form

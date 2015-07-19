@@ -10,9 +10,9 @@ class Recipe(models.Model):
     temperature = models.CharField(max_length=10, null=True, blank=True)
     directions = models.TextField(null=True)
     source = models.CharField(max_length=1000, null=True, blank=True)
-    servings = models.IntegerField(null=True, blank=True)
-    prepTime = models.IntegerField(null=True, blank=True)
-    cookTime = models.IntegerField(null=True, blank=True)
+    servings = models.IntegerField(default=0)
+    prepTime = models.IntegerField(default=0)
+    cookTime = models.IntegerField(default=0)
     enabled = models.IntegerField(default=1)
     def __str__(self):
         return self.name + "; " + self.prepMethod
