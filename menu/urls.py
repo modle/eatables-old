@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^(?P<recipeId>[0-9]+)/addcomment/$', views.addcomment, name='addcomment'),
     url(r'^showdocuments/$', views.showdocuments, name='showdocuments'),
     url(r'^(?P<documentId>[0-9]+)/deletedocument/$', views.deletedocument, name='deletedocument'),
-    url(r'^processuploads/$', views.processuploads, name='processuploads'),
+    # url(r'^processuploads/$', views.processuploads, name='processuploads'),
 ]

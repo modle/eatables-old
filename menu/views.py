@@ -151,52 +151,72 @@ def showdocuments(request):
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
 
-            # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('menu:showdocuments'))
+            path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
+
+            with open(path) as f:
+                reader = csv.reader(f)
+
+                # try:
+                for row in reader:
+                    _, created = Recipe.objects.get_or_create(
+                        name=row[0],
+                    )
+                    entry = get_object_or_404(Recipe, name=row[0])
+                    if created:
+                        entry.prepMethod = row[1]
+                        entry.temperature = row[2]
+                        entry.directions = row[3]
+                        entry.source = row[4]
+                        entry.servings = row[5]
+                        entry.prepTime = row[6]
+                        entry.cookTime = row[7]
+                        entry.save()
+
+                newdoc.delete()
+                return HttpResponseRedirect(reverse('menu:index'))
+
     else:
-        form = DocumentForm()  # A empty, unbound form
+        form = DocumentForm()  # An empty, unbound form
+        # Load documents for the list page
 
-
-
-
-
-    # Load documents for the list page
     documents = Document.objects.all()
-
     # Render list page with the documents and the form
+
     return render_to_response(
         'menu/showdocuments.html',
         {'documents': documents, 'form': form},
         context_instance=RequestContext(request)
     )
+    # return HttpResponseRedirect(reverse('menu:showdocuments'))
+
 
 def deletedocument(request, documentId):
     doc = Document.objects.get(pk=documentId)
     doc.delete()
     return HttpResponseRedirect(reverse('menu:showdocuments'))
 
-def processuploads(request):
-
-    try:
-        path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
-    except Exception:
-        return HttpResponse("No file to process.")
-
-    with open(path) as f:
-        reader = csv.reader(f)
-
-        try:
-            for row in reader:
-                _, created = Recipe.objects.get_or_create(
-                    name=row[0],
-                    prepMethod=row[1],
-                    temperature=row[2],
-                    directions=row[3],
-                    source=row[4],
-                    servings=row[5],
-                    prepTime=row[6],
-                    cookTime=row[7],
-                )
-            return HttpResponseRedirect(reverse('menu:index'))
-        except Exception:
-            return HttpResponse("Recipe names must be unique.")
+# def processuploads(request):
+#
+#     try:
+#         path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
+#     except Exception:
+#         return HttpResponse("No file to process.")
+#
+#     with open(path) as f:
+#         reader = csv.reader(f)
+#
+#         try:
+#             for row in reader:
+#                 _, created = Recipe.objects.get_or_create(
+#                     name=row[0],
+#                     prepMethod=row[1],
+#                     temperature=row[2],
+#                     directions=row[3],
+#                     source=row[4],
+#                     servings=row[5],
+#                     prepTime=row[6],
+#                     cookTime=row[7],
+#                 )
+#             return HttpResponseRedirect(reverse('menu:index'))
+#         except Exception:
+#             return HttpResponse("Recipe names must be unique.")
