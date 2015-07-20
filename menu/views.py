@@ -5,6 +5,8 @@ from django.views import generic
 from fractions import Fraction
 from decimal import Decimal
 from django.template import RequestContext
+from django.db.models import Q
+import os
 
 
 from menu.forms import *
@@ -143,16 +145,17 @@ def addcomment(request, recipeId):
 
 def showdocuments(request):
     # Handle file upload
+
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
 
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('menu:showdocuments'))
     else:
-        form = DocumentForm() # A empty, unbound form
+        form = DocumentForm()  # A empty, unbound form
 
     # Load documents for the list page
     documents = Document.objects.all()
@@ -163,3 +166,13 @@ def showdocuments(request):
         {'documents': documents, 'form': form},
         context_instance=RequestContext(request)
     )
+
+def deletedocument(request, documentId):
+    doc = Document.objects.get(pk=documentId)
+    doc.delete()
+    return HttpResponseRedirect(reverse('menu:showdocuments'))
+
+
+
+
+

@@ -6,11 +6,11 @@
     Edit: {{ recipe.name }}
 </div>
 <div id="content">
-    <nav>
+    <div>
         <a class="button" id="nav" href="{% url 'menu:index' %}">Back to Recipe List</a>
         <a class="button" id="nav" href="{% url 'menu:recipedetails' recipe.id %}">View Recipe Details</a>
         <a class="button" id="delete" href="{% url 'menu:disablerecipe' recipe.id %}">Remove Recipe</a>
-    </nav><div style="clear:both"></div>
+    </div><div style="clear:both"></div>
     <hr noshade><hr noshade>
 
     <h2>Edit Recipe Details</h2>

@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
-
+from django import forms
+import os
+from eatables import settings
 
 # Create your models here.
 class Recipe(models.Model):
@@ -83,5 +85,8 @@ class PurchaseHistory(models.Model):
         ordering = ('ingredient__name', 'id')
 
 class Document(models.Model):
-    docfile = models.FileField(upload_to='media/%Y/%m/%d')
+    docfile = models.FileField(upload_to='media')
 
+    def delete(self, *args, **kwargs):
+        os.remove(os.path.join(settings.MEDIA_ROOT, self.docfile.name))
+        super(Document,self).delete(*args,**kwargs)
