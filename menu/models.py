@@ -7,7 +7,7 @@ from eatables import settings
 # Create your models here.
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=80, unique=True)
     prepMethod = models.CharField(max_length=30, null=True, blank=True)
     temperature = models.CharField(max_length=10, null=True, blank=True)
     directions = models.TextField(null=True)
@@ -30,7 +30,7 @@ class Ingredient(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
     unit = models.CharField(max_length=30, null=True)
     def __str__(self):
-        return str(self.id) + " " + str(self.amount) + " " + self.unit + " " + self.name
+        return str(self.id) + " " + str(self.amount) + " " + str(self.unit) + " " + str(self.name)
 
     class Meta:
         ordering = ('id', )
@@ -89,4 +89,4 @@ class Document(models.Model):
 
     def delete(self, *args, **kwargs):
         os.remove(os.path.join(settings.MEDIA_ROOT, self.docfile.name))
-        super(Document,self).delete(*args,**kwargs)
+        super(Document, self).delete(*args, **kwargs)

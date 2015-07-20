@@ -1,13 +1,12 @@
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.views import generic
 from fractions import Fraction
 from decimal import Decimal
 from django.template import RequestContext
-from django.db.models import Q
-import os
-
+# from django.db.models import Q
+import csv
 
 from menu.forms import *
 from .models import Recipe, Ingredient, ShoppingList, Document
@@ -157,6 +156,10 @@ def showdocuments(request):
     else:
         form = DocumentForm()  # A empty, unbound form
 
+
+
+
+
     # Load documents for the list page
     documents = Document.objects.all()
 
@@ -172,7 +175,28 @@ def deletedocument(request, documentId):
     doc.delete()
     return HttpResponseRedirect(reverse('menu:showdocuments'))
 
+def processuploads(request):
 
+    try:
+        path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
+    except Exception:
+        return HttpResponse("No file to process.")
 
+    with open(path) as f:
+        reader = csv.reader(f)
 
-
+        try:
+            for row in reader:
+                _, created = Recipe.objects.get_or_create(
+                    name=row[0],
+                    prepMethod=row[1],
+                    temperature=row[2],
+                    directions=row[3],
+                    source=row[4],
+                    servings=row[5],
+                    prepTime=row[6],
+                    cookTime=row[7],
+                )
+            return HttpResponseRedirect(reverse('menu:index'))
+        except Exception:
+            return HttpResponse("Recipe names must be unique.")

@@ -32,6 +32,7 @@
 				<p>{{ form.docfile }}</p>
 				<input type="submit" value="Upload" id="submit"/>
 			</form>
+			<a href="{% url 'menu:processuploads' %}" class="button">Process Documents</a>
 		</div>
 
 		<div id="content"> <!-- List of uploaded documents -->
