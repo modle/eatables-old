@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>File uploads</title>
+		<title>Upload Recipe</title>
 	</head>
 	<div id="title">
 		Recipe Upload
@@ -15,9 +15,10 @@
 		<div id="aside"><!-- Upload form. Note enctype attribute! -->
 			<div>
 				<a class="button" id="nav" href="{% url 'menu:index' %}">Back to Recipe List</a>
+				<a class="button" id="nav" href="{% url 'menu:uploadingredients' 0 %}">Upload Ingredients</a>
 			</div><div style="clear:both"></div>
 			<hr noshade><hr noshade>
-      		<form action="{% url 'menu:showdocuments' %}" method="post" enctype="multipart/form-data">
+      		<form action="{% url 'menu:uploadrecipe' %}" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
 
 				<p>csv file only</p>

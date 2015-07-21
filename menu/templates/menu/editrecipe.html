@@ -48,7 +48,7 @@
             {% endfor %}
         <div id="ingredients"></div>
         <p><a class="button" href="{% url 'menu:addingredient' recipe.id %}" method="post">Add new ingredient</a></p>
-        <div id="ingredients"></div>
+        <p><a class="button" href="{% url 'menu:uploadingredients' recipe.id %}" method="post">Upload Ingredient CSV</a></p>
         {% for i in recipe.ingredient_set.all %}
             <fieldset name = "{{i.id}},ingredients">
                 <legend><a class="button" id="delete" href="{% url 'menu:deleteingredient' i.id %}" method="post">Delete this ingredient</a></legend>

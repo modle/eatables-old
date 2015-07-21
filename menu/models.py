@@ -17,7 +17,7 @@ class Recipe(models.Model):
     cookTime = models.IntegerField(default=0)
     enabled = models.IntegerField(default=1)
     def __str__(self):
-        return self.name + "; " + self.prepMethod
+        return self.name + "; " + self.prepMethod + "; " + str(self.id)
 
     class Meta:
         ordering = ('name', )
@@ -34,6 +34,7 @@ class Ingredient(models.Model):
 
     class Meta:
         ordering = ('id', )
+        unique_together = ('name', 'recipe', 'amount', 'unit',)
 
 class ShoppingList(models.Model):
     id = models.AutoField(primary_key=True)

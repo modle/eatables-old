@@ -142,7 +142,7 @@ def addcomment(request, recipeId):
     r.comment_set.create(comment=request.POST['comment'])
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,))+'#comments')
 
-def showdocuments(request):
+def uploadrecipe(request):
     # Handle file upload
 
     if request.method == 'POST':
@@ -183,17 +183,61 @@ def showdocuments(request):
     # Render list page with the documents and the form
 
     return render_to_response(
-        'menu/showdocuments.html',
+        'menu/uploadrecipe.html',
         {'documents': documents, 'form': form},
         context_instance=RequestContext(request)
     )
     # return HttpResponseRedirect(reverse('menu:showdocuments'))
 
 
+def uploadingredients(request, recipeId):
+    # Handle file upload #update for ingredient additions
+
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile=request.FILES['docfile'])
+            newdoc.save()
+
+            path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
+
+            with open(path) as f:
+                reader = csv.reader(f)
+
+                # try:
+                for row in reader:
+                    recipe = get_object_or_404(Recipe, name=row[0])
+                    _, created = Ingredient.objects.get_or_create(
+                        name=row[1],
+                        recipe_id=recipe.id,
+                        amount=row[2],
+                        unit=row[3],
+                        comment=row[4],
+                    )
+
+                newdoc.delete()
+                return HttpResponseRedirect(reverse('menu:index'))
+
+    else:
+        form = DocumentForm()  # An empty, unbound form
+        # Load documents for the list page
+
+    documents = Document.objects.all()
+    # Render list page with the documents and the form
+
+    return render_to_response(
+        'menu/uploadingredients.html',
+        {'documents': documents, 'form': form, 'recipeId': recipeId},
+        context_instance=RequestContext(request)
+    )
+    # return HttpResponseRedirect(reverse('menu:showdocuments'))
+
+
+
 def deletedocument(request, documentId):
     doc = Document.objects.get(pk=documentId)
     doc.delete()
-    return HttpResponseRedirect(reverse('menu:showdocuments'))
+    return HttpResponseRedirect(reverse('menu:uploadrecipe'))
 
 # def processuploads(request):
 #
