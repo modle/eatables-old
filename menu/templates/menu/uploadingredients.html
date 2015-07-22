@@ -21,7 +21,7 @@
                 {% endif %}
 			</div><div style="clear:both"></div>
 			<hr noshade><hr noshade>
-      		<form action="{% url 'menu:uploadingredients' recipeId %}" method="post" enctype="multipart/form-data">
+      		<form action="{% url 'menu:uploadingredients' %}" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
 
 				<p>csv file only</p>
