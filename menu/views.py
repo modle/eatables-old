@@ -7,6 +7,8 @@ from decimal import Decimal
 from django.template import RequestContext
 # from django.db.models import Q
 import csv
+import os
+from eatables import settings
 
 from menu.forms import *
 from .models import Recipe, Ingredient, ShoppingList, Document
@@ -151,9 +153,11 @@ def uploadrecipe(request):
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
 
-            path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
+            dir_path = os.path.realpath(__file__)
+            file_path = Document.objects.all().values()[0]['docfile'].split(' ')[0].encode('utf8')
+            full_path = "{0}/{1}".format(os.path.dirname(dir_path), file_path)
 
-            with open(path) as f:
+            with open(full_path) as f:
                 reader = csv.reader(f)
 
                 # try:
@@ -199,9 +203,10 @@ def uploadingredients(request, recipeId):
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
 
-            path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
-
-            with open(path) as f:
+            dir_path = os.path.realpath(__file__)
+            file_path = Document.objects.all().values()[0]['docfile'].split(' ')[0].encode('utf8')
+            full_path = "{0}/{1}".format(os.path.dirname(dir_path), file_path)
+            with open(full_path) as f:
                 reader = csv.reader(f)
 
                 # try:
