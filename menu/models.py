@@ -25,12 +25,12 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
     recipe = models.ForeignKey(Recipe)
-    name = models.CharField(max_length=80, null=True, blank=True)
+    name = models.CharField(max_length=80, null=False)
     comment = models.CharField(max_length=80, null=True, blank=True)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
-    unit = models.CharField(max_length=30, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    unit = models.CharField(max_length=30, null=True, blank=True)
     def __str__(self):
-        return str(self.id) + " " + str(self.amount) + " " + str(self.unit) + " " + str(self.name)
+        return str(self.unit) + " " + str(self.name)
 
     class Meta:
         ordering = ('id', )
@@ -38,9 +38,9 @@ class Ingredient(models.Model):
 
 class ShoppingList(models.Model):
     id = models.AutoField(primary_key=True)
-    ingredient = models.ForeignKey(Ingredient)
+    ingredient = models.ForeignKey(Ingredient, blank=False)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
-    status = models.IntegerField(default=0, null=True)
+    status = models.BooleanField(default=False,)
     def __str__(self):
         return str(self.id) + " " + str(self.ingredient_id) + " " + str(self.status) + " " + str(self.amount)
 

@@ -6,12 +6,14 @@ $ cat .gitignore
 nohup.out
 
 # ignore .commands
-*.commands
+.commands
 
 #ignore .howto files
-*.howto*
+.howto*
 
 #ignore .backup files
-*.backup*
+.backup*
 
 media/*
+
+.notes*

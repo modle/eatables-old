@@ -52,10 +52,10 @@
         {% for i in recipe.ingredient_set.all %}
             <fieldset name = "{{i.id}},ingredients">
                 <legend><a class="button" id="delete" href="{% url 'menu:deleteingredient' i.id %}" method="post">Delete this ingredient</a></legend>
-                <input type=text placeholder="name" name="{{i.id}},name" value="{{ i.name }}">
-                <input type=text placeholder="amount" name="{{i.id}},amount" value="{{ i.amount }}">
-                <input type=text placeholder="units" name="{{i.id}},unit" value="{{ i.unit }}">
-                <input type=text placeholder="comment" name="{{i.id}},comment" value="{{ i.comment }}">
+                <input type=text value="{{ i.name }}" name="{{i.id}},name">
+                <input type=text value="{{ i.amount }}" name="{{i.id}},amount">
+                <input type=text value="{{ i.unit}}" name="{{i.id}},unit">
+                <input type=text value="{{ i.comment }}" name="{{i.id}},comment">
             </fieldset>
         {% endfor %}
         <br>

@@ -1,14 +1,18 @@
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from fractions import Fraction
 from decimal import Decimal
 from django.template import RequestContext
-# from django.db.models import Q
 import csv
 import os
-from eatables import settings
+from datetime import datetime
+from django.forms.models import modelformset_factory
+import logging
+import json
+import sys
+
 
 from menu.forms import *
 from .models import Recipe, Ingredient, ShoppingList, Document
@@ -20,6 +24,7 @@ class Index(generic.ListView):
 
     def get_queryset(self):
         return Recipe.objects.filter(enabled=1)
+
 
 def addtoshoppinglist(request, recipeId):
     for key in request.POST:
@@ -37,26 +42,38 @@ def addtoshoppinglist(request, recipeId):
 
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
 
-class ShoppingListView(generic.ListView):
+
+def manageshoppinglist(request):
+    logger = logging.getLogger(__name__)
+
+    ShoppingListFormSet = modelformset_factory(ShoppingList, form=ShoppingListForm, extra=0)
+
+    if request.method == 'POST':
+        formset = ShoppingListFormSet(request.POST)
+        if formset.is_valid():
+            formset.save()
+            logger.debug('Formset saved')
+        else:
+            logger.debug('Formset invalid')
+
+    else:
+        formset = ShoppingListFormSet()
+
+    logger.debug('POST DATA:\n %s', json.dumps(request.POST, indent=4, sort_keys=True))
+    logger.debug('LOCALS:\n %s', locals())
+
+    return render_to_response(
+        'menu/manageshoppinglist.html',
+        {'formset': formset},
+        context_instance=RequestContext(request))
+
+class ArchiveList(generic.ListView):
     model = ShoppingList
-    template_name = 'menu/shoppinglist.html'
+    template_name = 'menu/archivelist.html'
 
     def get_queryset(self):
         return ShoppingList.objects.all()
 
-def updateshoppinglist(request):
-    for key in request.POST:
-        shoppinglist_id = key
-
-        if shoppinglist_id != 'csrfmiddlewaretoken':
-            checked_status = ShoppingList.objects.get(pk=shoppinglist_id)
-            value = (request.POST[key])
-
-            # Update the field on the ingredient from this line
-            setattr(checked_status, "status", value)
-            checked_status.save()
-
-    return HttpResponseRedirect(reverse('menu:shoppinglist'))
 
 class RecipeDetail(generic.DetailView):
     model = Recipe
@@ -65,8 +82,9 @@ class RecipeDetail(generic.DetailView):
     def get_queryset(self):
         return Recipe.objects.all()
 
+
 def addrecipe(request):
-    r = Recipe(name="Update Me")
+    r = Recipe(name="Update Me_" + str(datetime.now()))
     r.save()
     return HttpResponseRedirect(reverse('menu:editrecipe', args=(r.id,)))
 
@@ -77,9 +95,11 @@ def disablerecipe(request, recipeId):
     r.save()
     return HttpResponseRedirect(reverse('menu:index'))
 
+
 def deleterecipeforever(request, recipeId):
     Recipe.objects.filter(pk=recipeId).delete()
     return HttpResponseRedirect(reverse('menu:index'))
+
 
 class EditRecipe(generic.DetailView):
     model = Recipe
@@ -103,13 +123,12 @@ def updaterecipe(request, recipeId):
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(r.id,)))
 
 
-
 def updateingredient(request, recipeId):
     # loop through post form
     for key in request.POST:
         key_split = key.split(',')
         ingredient_id = key_split[0]
-        
+
         # Awkwardly avoid the middlewaretoken that is being submitted
         if ingredient_id != 'csrfmiddlewaretoken':
             ingredient_field = key_split[1]
@@ -129,20 +148,26 @@ def updateingredient(request, recipeId):
 
     return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)))
 
+
 def deleteingredient(request, ingredientId):
     i = Ingredient.objects.get(pk=ingredientId)
     Ingredient.objects.filter(pk=ingredientId).delete()
-    return HttpResponseRedirect(reverse('menu:editrecipe', args=(i.recipe_id,))+'#ingredients')
+    return HttpResponseRedirect(reverse('menu:editrecipe', args=(i.recipe_id,)) + '#ingredients')
+
 
 def addingredient(request, recipeId):
     r = Recipe.objects.get(pk=recipeId)
-    r.ingredient_set.create(name="update me", amount="0.0", unit="")
-    return HttpResponseRedirect(reverse('menu:editrecipe', args=(recipeId,))+'#ingredients')
+
+    now = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S:%f'))
+    r.ingredient_set.create(name="Update Me_" + now, amount="0.0", unit="unit")
+    return HttpResponseRedirect(reverse('menu:editrecipe', args=(recipeId,)) + '#ingredients')
+
 
 def addcomment(request, recipeId):
     r = Recipe.objects.get(pk=recipeId)
     r.comment_set.create(comment=request.POST['comment'])
-    return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,))+'#comments')
+    return HttpResponseRedirect(reverse('menu:recipedetails', args=(recipeId,)) + '#comments')
+
 
 def uploadrecipe(request):
     # Handle file upload
@@ -238,34 +263,47 @@ def uploadingredients(request):
     # return HttpResponseRedirect(reverse('menu:showdocuments'))
 
 
-
 def deletedocument(request, documentId):
     doc = Document.objects.get(pk=documentId)
     doc.delete()
     return HttpResponseRedirect(reverse('menu:uploadrecipe'))
 
-# def processuploads(request):
-#
-#     try:
-#         path = Document.objects.all().values()[0]['docfile'].split(' ')[0]
-#     except Exception:
-#         return HttpResponse("No file to process.")
-#
-#     with open(path) as f:
-#         reader = csv.reader(f)
-#
-#         try:
-#             for row in reader:
-#                 _, created = Recipe.objects.get_or_create(
-#                     name=row[0],
-#                     prepMethod=row[1],
-#                     temperature=row[2],
-#                     directions=row[3],
-#                     source=row[4],
-#                     servings=row[5],
-#                     prepTime=row[6],
-#                     cookTime=row[7],
-#                 )
-#             return HttpResponseRedirect(reverse('menu:index'))
-#         except Exception:
-#             return HttpResponse("Recipe names must be unique.")
+
+class TestListView(generic.ListView):
+    model = Recipe
+    template_name = 'menu/test.html'
+
+    def get_queryset(self):
+        return Recipe.objects.all()
+
+
+class FauxTb(object):
+    def __init__(self, tb_frame, tb_lineno, tb_next):
+        self.tb_frame = tb_frame
+        self.tb_lineno = tb_lineno
+        self.tb_next = tb_next
+
+def current_stack(skip=0):
+    try: 1/0
+    except ZeroDivisionError:
+        f = sys.exc_info()[2].tb_frame
+    for i in xrange(skip + 2):
+        f = f.f_back
+    lst = []
+    while f is not None:
+        lst.append((f, f.f_lineno))
+        f = f.f_back
+    return lst
+
+def extend_traceback(tb, stack):
+    """Extend traceback with stack info."""
+    head = tb
+    for tb_frame, tb_lineno in stack:
+        head = FauxTb(tb_frame, tb_lineno, head)
+    return head
+
+def full_exc_info():
+    """Like sys.exc_info, but includes the full traceback."""
+    t, v, tb = sys.exc_info()
+    full_tb = extend_traceback(tb, current_stack(1))
+    return t, v, full_tb

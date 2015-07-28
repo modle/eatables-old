@@ -12,7 +12,7 @@
     <div>
         <a class="button" id="nav" href="{% url 'menu:index' %}">Back to Recipe List</a>
         <a class="button" id="nav" href="{% url 'menu:editrecipe' recipe.id %}">Edit Recipe</a>
-        <a class="button" id="nav" href="{% url 'menu:shoppinglist' %}">View Shopping List</a>
+        <a class="button" id="nav" href="{% url 'menu:manageshoppinglist' %}">View Shopping List</a>
     </div><div style="clear:both"></div>
     <hr noshade><hr noshade>
     <h3>Ingredients</h3>
@@ -22,9 +22,7 @@
         {% for i in recipe.ingredient_set.all %}
             <div>
                 {{i.amount|showinteger}}{{ i.amount|showfraction }} {{ i.unit }}
-                <!--need a better way to add the plural-->
-                    {% if i.amount > 1 and i.unit != "medium" and i.unit != "tsp" and i.unit != "tbsp" %}s{% endif %}
-                    {{ i.name }}{% if i.comment %}, {{ i.comment }}{% endif %}
+                {{ i.name }}{% if i.comment %}, {{ i.comment }}{% endif %}
             </div>
             <div class="ingredientList"><input type="checkbox" value={{i.amount}} id={{i.id}} name={{i.id}}><label for={{i.id}}></label></div>
            <hr noshade>
