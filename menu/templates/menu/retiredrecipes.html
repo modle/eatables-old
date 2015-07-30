@@ -1,9 +1,8 @@
 {% load staticfiles %}
-{% load menu_extras %}
 {% include "menu/stylesheets.html" %}
 
 <div id="title">
-    Shopping List
+    Retired Recipes
 </div>
 <div id="content">
     <div>
@@ -16,14 +15,11 @@
     {% csrf_token %}
     {{ formset.management_form }}
         {% for form in formset %}
-            {{ form.id }}
-            {{ form.status }}
-            {{ form.amount }}
-            {{ form.ingredient }}
+            {{ form.id }} {{ form }}
             <hr noshade>
         {% endfor %}
         <hr noshade>
-        <input type="submit" value="Update" id="submit"/>
+        <input type="submit" value="Retire Unchecked/Untire Checked" id="submit"/>
     </form>
 
 

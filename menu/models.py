@@ -15,7 +15,7 @@ class Recipe(models.Model):
     servings = models.IntegerField(default=0)
     prepTime = models.IntegerField(default=0)
     cookTime = models.IntegerField(default=0)
-    enabled = models.IntegerField(default=1)
+    enabled = models.BooleanField(default=True)
     def __str__(self):
         return self.name + "; " + self.prepMethod + "; " + str(self.id)
 
@@ -39,7 +39,7 @@ class Ingredient(models.Model):
 class ShoppingList(models.Model):
     id = models.AutoField(primary_key=True)
     ingredient = models.ForeignKey(Ingredient, blank=False)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
+    amount = models.IntegerField(default=0, null=True, blank=True)
     status = models.BooleanField(default=False,)
     def __str__(self):
         return str(self.id) + " " + str(self.ingredient_id) + " " + str(self.status) + " " + str(self.amount)

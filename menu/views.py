@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from fractions import Fraction
-from decimal import Decimal
 from django.template import RequestContext
 import csv
 import os
@@ -12,6 +11,7 @@ from django.forms.models import modelformset_factory
 import logging
 import json
 import sys
+import math
 
 
 from menu.forms import *
@@ -33,10 +33,12 @@ def addtoshoppinglist(request, recipeId):
 
             listItem, created = ShoppingList.objects.get_or_create(ingredient_id=key)
             entry = get_object_or_404(ShoppingList, ingredient_id=key)
+            #this math needs work; alternate is to store as decimal, then math.ceil when model is read
             if created:
-                entry.amount = value
+                entry.amount = math.ceil(float(value))
             else:
-                entry.amount = entry.amount + Decimal(float(value))
+                entry.amount = math.ceil(float(entry.amount) + float(value))
+                # entry.amount = entry.amount + Decimal(float(value))
 
             entry.save()
 
@@ -81,6 +83,30 @@ class RecipeDetail(generic.DetailView):
 
     def get_queryset(self):
         return Recipe.objects.all()
+
+def retiredrecipes(request):
+    logger = logging.getLogger(__name__)
+
+    RetiredRecipesFormSet = modelformset_factory(Recipe, form=RetiredRecipesForm, extra=0)
+
+    if request.method == 'POST':
+        formset = RetiredRecipesFormSet(request.POST)
+        if formset.is_valid():
+            formset.save()
+            logger.debug('Formset saved')
+        else:
+            logger.debug('Formset invalid')
+        return HttpResponseRedirect(reverse('menu:index'))
+    else:
+        formset = RetiredRecipesFormSet()
+
+    logger.debug('POST DATA:\n %s', json.dumps(request.POST, indent=4, sort_keys=True))
+    logger.debug('LOCALS:\n %s', locals())
+
+    return render_to_response(
+        'menu/retiredrecipes.html',
+        {'formset': formset},
+        context_instance=RequestContext(request))
 
 
 def addrecipe(request):

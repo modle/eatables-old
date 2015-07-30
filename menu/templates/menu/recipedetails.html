@@ -33,11 +33,13 @@
 </div>
 <div id="content">
     <h3>Directions</h3>
-        {% markdown %}
-            {{ recipe.directions | safe }}
-        {% endmarkdown %}
+    <a class="button" href="{% url 'menu:editrecipe' recipe.id %}">Edit</a><br>
+    {% markdown %}
+        {{ recipe.directions | safe }}
+    {% endmarkdown %}
 </div>
 <div id="aside">
+    <a class="button" href="{% url 'menu:editrecipe' recipe.id %}">Edit</a><br>
     <ul>
         <li><b>Method</b>: {{ recipe.prepMethod }}</li>
         <li><b>Temp</b>: {{ recipe.temperature }}</li>

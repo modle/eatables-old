@@ -22,8 +22,8 @@ textarea {
     font-size: 120%;
     color: #5a5854;
     background-color: #f2f2f2;
-    border: 1px solid #bdbdbd;
-    border-radius: 5px;
+    /*border: 1px solid #bdbdbd;*/
+    /*border-radius: 5px;*/
     padding: 5px 5px 5px 10px;
     width:100%;
 }
@@ -38,12 +38,35 @@ input {
     display: inline-block;
 }
 
-input#text {
-    width: 100%
+input[type="text"] {
+    font-size: 1.2em;
+    width: auto;
+    background: #f2f2f2
+}
+
+input#listform {
+    font-size: 1.2em;
+    width: 3em;
+    background: lightblue;
+    border:none;
+}
+
+input#retiredrecipesform {
+    display: inline-block;
+    font-size: 1.2em;
+    width: 80%;
+    background: lightblue;
+    border:none;
+}
+
+input#listform:focus{
+    border: none;
+    background: #f2f2f2;
 }
 
 input:focus {
-    border: 1px black;
+    border: 1px solid black;
+    background: #f2f2f2;
 }
 
 input#submit {
@@ -56,6 +79,18 @@ input#submit {
 input#submit:hover {
     color: #665544;
     background-color: #efefef;
+}
+
+select {
+    font-size: 1.2em;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    /* needed for Firefox: */
+    overflow:hidden;
+    background:lightblue;
+    color: #5a5854;
 }
 
 th {
