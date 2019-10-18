@@ -52,6 +52,6 @@ sessioninstaller==0.0.0
 six==1.5.2
 system-service==0.1.6
 uTidylib==0.2
-urllib3==1.7.1
+urllib3==1.24.2
 wsgiref==0.1.2
 zope.interface==4.0.5
